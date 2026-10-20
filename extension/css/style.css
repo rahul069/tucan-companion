@@ -842,3 +842,19 @@ html body .tuplan-status[data-tone='error']{ color: var(--danger) !important; }
 .tc-month #pageContent .tbMonthDay .tbsubhead{ border: 0 !important; background: none !important; }
 .tc-month #pageContent a.apmntLink{ display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tc-month #pageContent a.apmntLink .tc-mtime{ color: var(--accent-hi) !important; font-weight: 600 !important; }
+
+/* Side box on detail pages (e.g. "Module Owner"): TUCaN gives its caption a white bar. */
+#pageContent table.tb_contentright, #pageContent table.tb_contentright td{
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+#pageContent table.tb_contentright caption{
+  background: var(--surface-2) !important;
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+  padding: 6px 10px !important;
+  border: 1px solid var(--border) !important;
+  border-bottom: 0 !important;
+  border-radius: var(--radius) var(--radius) 0 0 !important;
+}
