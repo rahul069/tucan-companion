@@ -87,7 +87,7 @@
   var root = areas[0];
 
   // ---------- 2. Extra data from TUCaN (cached) ----------
-  var CACHE_KEY = 'tc-progress-v2';
+  var CACHE_KEY = 'tc-progress-v3';
   function load(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; } catch(e){ return {}; } }
   function save(c){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify(c)); } catch(e){} }
   var cache = load();
@@ -180,6 +180,60 @@
     return data;
   }
 
+  // A page with a semester dropdown: the default semester plus the next older ones.
+  async function semesterPages(prg, count){
+    var url = navLink(prg); if(!url) return [];
+    var doc = await getDoc(url), form = doc.querySelector('#pageContent form'), sel = form && form.querySelector('select');
+    if(!sel) return [{label: '', doc: doc}];
+    var opts = Array.prototype.filter.call(sel.options, function(o){ return o.value !== '999'; });
+    var i = Math.max(0, opts.findIndex(function(o){ return o.selected; }));
+    var out = [{label: text(opts[i]), doc: doc}];
+    for(var k = 1; k < count && opts[i + k]; k++){
+      var body = new URLSearchParams();
+      form.querySelectorAll('input[type="hidden"]').forEach(function(h){ body.append(h.name, h.value); });
+      body.append(sel.name, opts[i + k].value);
+      out.push({label: text(opts[i + k]), doc: await getDoc(new URL(form.getAttribute('action') || url, url).href, {method: 'POST', body: body})});
+    }
+    return out;
+  }
+
+  // Modules whose final grade is "not set yet" (Module Results, last three semesters).
+  async function pendingResults(){
+    if(fresh('results', 6)) return cache.results.data;
+    var data = [];
+    // The first page is the running semester: "not set yet" there just means the course isn't over.
+    (await semesterPages('COURSERESULTS', 3)).forEach(function(pg, index){
+      pg.doc.querySelectorAll('#pageContent table tr').forEach(function(tr){
+        var cells = Array.prototype.map.call(tr.children, text);
+        if(!CODE.test(cells[0] || '') || !cells.some(function(c){ return /^(not set yet|noch nicht gesetzt|nicht gesetzt)$/i.test(c); })) return;
+        var cp = cells.find(function(c){ return /^\d+,\d$/.test(c); });
+        data.push({code: CODE.exec(cells[0])[1], name: cells[1], credits: cp ? num(cp) : NaN, semester: pg.label, current: index === 0});
+      });
+    });
+    cache.results = {at: Date.now(), data: data}; save(cache);
+    return data;
+  }
+
+  // Latest exam attempt per module (Examination Results): sick note, failed, absent …
+  var ATTEMPT = [[/Krankschreibung|sick note/i, 'sick note'], [/nicht ausreichend|nicht bestanden|insufficient|failed/i, 'failed'],
+                 [/nicht erschienen|absent/i, 'absent'], [/entschuldigt|excused/i, 'excused'], [/zurückgetreten|withdrawn/i, 'withdrawn']];
+  async function attempts(){
+    if(fresh('attempts', 6)) return cache.attempts.data;
+    var data = {};
+    (await semesterPages('EXAMRESULTS', 2)).forEach(function(pg){
+      pg.doc.querySelectorAll('#pageContent table tr').forEach(function(tr){
+        var t = text(tr), m = CODE.exec(text(tr.children[0]));
+        if(!m) return;
+        var kind = ATTEMPT.find(function(a){ return a[0].test(t); });
+        var date = (/(\d{2}\.\d{2}\.\d{4})/.exec(t) || [])[1] || '';
+        var key = m[1].slice(0, 10), stamp = date ? date.split('.').reverse().join('') : '';
+        if(!data[key] || stamp > data[key].stamp) data[key] = {result: kind ? kind[1] : 'graded', date: date, stamp: stamp};
+      });
+    });
+    cache.attempts = {at: Date.now(), data: data}; save(cache);
+    return data;
+  }
+
   // Registration-tree names → areas on this record.
   function findArea(names, code){
     if(/^41-/.test(code)) names = (names || []).concat(['Wahlbereich Sprachen', 'Elective Area: Languages', 'Languages']);
@@ -207,6 +261,7 @@
     return b;
   }
 
+  var extra = {results: [], attempts: {}};
   function render(credits, current, map){
     // In progress = on the record but not passed, plus this semester's modules not on it yet.
     var onRecord = {};
@@ -224,6 +279,15 @@
         return;
       }
       pending.push({code: c.code, name: (credits[c.code] || c).name, credits: c.credits, area: findArea(map[c.code], c.code), onRecord: false, thisSemester: true, url: (credits[c.code] || c).url});
+    });
+
+    // Exams written but no grade yet.
+    extra.results.forEach(function(r){
+      if(onRecord[r.code] && onRecord[r.code].status === 'passed') return;
+      var p = pending.find(function(x){ return x.code === r.code; });
+      if(p){ if(r.current) p.thisSemester = true; else p.resultPending = r.semester; if(isNaN(p.credits)) p.credits = r.credits; return; }
+      pending.push({code: r.code, name: r.name, credits: r.credits, area: findArea(map[r.code], r.code), onRecord: false,
+                    thisSemester: r.current, resultPending: r.current ? null : r.semester, url: (credits[r.code] || {}).url});
     });
 
     var under = function(area, a){ for(; a; a = a.parent) if(a === area) return true; return false; };
@@ -269,6 +333,12 @@
       facts.appendChild(d);
     });
     summary.appendChild(facts);
+    var waiting = pending.filter(function(p){ return p.resultPending; });
+    if(waiting.length){
+      var cp = waiting.reduce(function(s, p){ return s + (p.credits || 0); }, 0);
+      summary.appendChild(el('p', 'tc-waiting', '⏳ ' + waiting.length + (waiting.length === 1 ? ' result' : ' results') + ' pending (' + fmt(cp) + ' CP): ' +
+        waiting.map(function(p){ return p.name + ' (' + p.resultPending + ')'; }).join(', ')));
+    }
 
     // This semester / in progress list
     if(pending.length){
@@ -287,9 +357,13 @@
         if(p.url) chip.href = p.url;
         var name = el('td'); name.appendChild(chip); name.appendChild(document.createTextNode(' ' + (p.name || ''))); tr.appendChild(name);
         tr.appendChild(el('td', 'tc-num', isNaN(p.credits) || p.credits == null ? '–' : fmt(p.credits) + ' CP'));
-        var where = p.area ? areaName(p.area) : ((map[p.code] || []).join(', ') || 'Not assigned yet');
+        var where = p.area ? areaName(p.area) : ((map[p.code] || []).join(', ') || (p.resultPending ? 'Not on your record yet' : 'Not assigned yet'));
         tr.appendChild(el('td', p.area ? null : 'tc-muted', where));
-        tr.appendChild(el('td', 'tc-muted', p.thisSemester ? (p.onRecord ? 'This semester · ' + p.status : 'This semester · registered') : p.status));
+        var last = extra.attempts[p.code];
+        var status = p.resultPending ? 'Result pending · ' + p.resultPending
+          : p.thisSemester ? (p.onRecord ? 'This semester · ' + p.status + (last && last.result !== 'graded' ? ' (last attempt: ' + last.result + ')' : '') : 'This semester · registered')
+          : p.status + (last && last.result !== 'graded' ? ' · last attempt: ' + last.result + (last.date ? ' (' + last.date + ')' : '') : '');
+        tr.appendChild(el('td', p.resultPending ? 'tc-result-pending' : 'tc-muted', status));
         t.appendChild(tr);
       });
       list.appendChild(t);
@@ -338,19 +412,23 @@
   // the page), then redraw only if TUCaN's data turned out different.
   var shown = null;
   function show(credits, current, map){
-    var sig = JSON.stringify([credits, current, map]);
+    var sig = JSON.stringify([credits, current, map, extra]);
     if(sig === shown) return;
     shown = sig;
     render(credits, current, map);
   }
   var hasCache = cache.modules && cache.current;
+  if(cache.results) extra.results = cache.results.data;
+  if(cache.attempts) extra.attempts = cache.attempts.data;
   show(hasCache ? cache.modules.data : {}, hasCache ? cache.current.data : [], cache.areas ? cache.areas.data : {});
   if(!hasCache) summary.appendChild(el('p', 'tc-progress-loading', 'Loading credits of your current modules from TUCaN…'));
   (async function(){
     try{
       var credits = await allModules();
+      extra.results = await pendingResults();
+      extra.attempts = await attempts();
       var current = await currentModules();
-      var unknown = current.some(function(c){ return !modules.some(function(m){ return m.code === c.code; }) && !/^41-/.test(c.code); });
+      var unknown = current.concat(extra.results).some(function(c){ return !modules.some(function(m){ return m.code === c.code; }) && !/^41-/.test(c.code); });
       var map = unknown ? await areaMap() : (cache.areas ? cache.areas.data : {});
       show(credits, current, map);
     } catch(e){

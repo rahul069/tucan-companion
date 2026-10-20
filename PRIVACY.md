@@ -6,7 +6,7 @@ TUCaN Companion is a browser extension that changes how TU Darmstadt's TUCaN pag
 
 ## What the extension collects
 
-**Nothing.** The extension doesn't collect, transmit, sell or share any personal data, and contains no analytics or tracking. The only network requests it makes go to TUCaN itself (`www.tucan.tu-darmstadt.de`), using your existing login: on the performance record page it reads *My Modules*, *My Current Registrations* and the *Registration* overview to calculate your degree progress.
+**Nothing.** The extension doesn't collect, transmit, sell or share any personal data, and contains no analytics or tracking. The only network requests it makes go to TUCaN itself (`www.tucan.tu-darmstadt.de`), using your existing login: on the performance record page it reads *My Modules*, *My Current Registrations*, *Module Results*, *Examination Results* and the *Registration* overview to calculate your degree progress.
 
 ## What it stores on your device
 

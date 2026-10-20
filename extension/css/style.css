@@ -908,3 +908,5 @@ html body .tuplan-status[data-tone='error']{ color: var(--danger) !important; }
 .tc-legend .tc-legend-text.tc-ok{ color: var(--success) !important; }
 .tc-legend .tc-legend-text.tc-soon{ color: var(--accent-hi) !important; }
 .tc-legend .tc-legend-text.tc-need{ color: var(--warning) !important; }
+#pageContent .tc-result-pending{ color: var(--accent-hi) !important; font-weight: 600 !important; }
+.tc-waiting{ margin: 12px 0 0; padding: 8px 12px; border-radius: 8px; background: var(--accent-bg) !important; color: var(--accent-hi) !important; font-weight: 600 !important; }
