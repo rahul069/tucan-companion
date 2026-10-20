@@ -266,7 +266,9 @@
       list.appendChild(el('div', 'tc-pending-title', 'In progress — where the credits will count'));
       var t = el('table', 'tc-pending-table');
       var hr = el('tr'); ['Module', 'Credits', 'Counts towards', 'Status'].forEach(function(h){ hr.appendChild(el('th', null, h)); }); t.appendChild(hr);
-      pending.sort(function(a, b){ return (b.thisSemester ? 1 : 0) - (a.thisSemester ? 1 : 0) || a.code.localeCompare(b.code); });
+      // Same order as the record: by area (Foundations, Models and Methods, …), then this semester's first.
+      var order = function(p){ var i = areas.indexOf(p.area); return i < 0 ? 1e6 : i; };
+      pending.sort(function(a, b){ return order(a) - order(b) || (b.thisSemester ? 1 : 0) - (a.thisSemester ? 1 : 0) || a.code.localeCompare(b.code); });
       pending.forEach(function(p){
         var tr = el('tr');
         var name = el('td'); name.appendChild(el('span', 'tc-code', p.code)); name.appendChild(document.createTextNode(' ' + (p.name || ''))); tr.appendChild(name);
