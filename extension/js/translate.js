@@ -8,6 +8,48 @@
 
   // Longer phrases first so they win over the single words they contain.
   var DICT = [
+    // Module and course descriptions
+    ['Qualifikationsziele / Lernergebnisse', 'Learning outcomes'],
+    ['Voraussetzung für die Teilnahme', 'Prerequisites for participation'],
+    ['Voraussetzungen für die Teilnahme', 'Prerequisites for participation'],
+    ['Ergänzung zur Prüfungsform', 'Supplement to the examination form'],
+    ['Notwendige Voraussetzungen', 'Required prerequisites'],
+    ['Empfohlene Voraussetzungen', 'Recommended prerequisites'],
+    ['Qualifikationsziele', 'Learning outcomes'],
+    ['Lernergebnisse', 'Learning outcomes'],
+    ['Lehrinhalte', 'Course content'],
+    ['Verwendbarkeit', 'Applicability'],
+    ['Literatur', 'Literature'],
+    ['Lehrformen', 'Teaching methods'],
+    ['Lehrform', 'Teaching method'],
+    ['Angebotsturnus', 'Offered'],
+    ['Unterrichtssprache', 'Language of instruction'],
+    ['Lehrsprache', 'Language of instruction'],
+    ['Leistungspunkte', 'Credits'],
+    ['Prüfungsform', 'Examination form'],
+    ['Prüfungsdauer', 'Examination duration'],
+    ['Modulbeschreibung', 'Module description'],
+    ['Modulverantwortliche', 'Module owners'],
+    ['Modulverantwortlicher', 'Module owner'],
+    ['Arbeitsaufwand', 'Workload'],
+    ['Selbststudium', 'Self-study'],
+    ['Präsenzzeit', 'Contact hours'],
+    ['Bemerkungen', 'Remarks'],
+    ['Bemerkung', 'Remark'],
+    ['Empfohlen', 'Recommended'],
+    ['jedes Wintersemester', 'every winter semester'],
+    ['jedes Sommersemester', 'every summer semester'],
+    ['jedes Semester', 'every semester'],
+    // Degree programmes (B.Sc./M.Sc. … Informatik)
+    ['Wirtschaftsinformatik', 'Business Informatics'],
+    ['Informationssystemtechnik', 'Information Systems Technology'],
+    ['Elektrotechnik und Informationstechnik', 'Electrical Engineering and Information Technology'],
+    ['Wirtschaftsingenieurwesen', 'Industrial Engineering'],
+    ['Maschinenbau', 'Mechanical Engineering'],
+    ['Psychologie', 'Psychology'],
+    ['Mathematik', 'Mathematics'],
+    ['Informatik', 'Computer Science'],
+    ['Physik', 'Physics'],
     ['Fachprüfungen aus den Wahlbereichen des', 'Subject examinations from the elective areas of the'],
     ['Wahlbereiche und Studium Generale', 'Elective Areas and General Studies'],
     ['Studium Generale', 'General Studies'],
@@ -104,6 +146,7 @@
     ['Abmeldefrist', 'Deregistration period'],
     ['Frist', 'Deadline']
   ];
+  DICT.sort(function(a, b){ return b[0].length - a[0].length; });
   var RULES = DICT.map(function(p){
     return [new RegExp('(?<!\\p{L})' + p[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?!\\p{L})', 'gu'), p[1]];
   });
@@ -117,7 +160,7 @@
       acceptNode: function(n){
         var p = n.parentElement;
         if(!p || /^(SCRIPT|STYLE|TEXTAREA|INPUT|OPTION|NOSCRIPT)$/.test(p.tagName)) return NodeFilter.FILTER_REJECT;
-        if(p.closest('.img_LangGerman, #pageHeadSwitchLang')) return NodeFilter.FILTER_REJECT;
+        if(p.closest('.img_LangGerman, #pageHeadSwitchLang, .tc-header, [translate="no"]')) return NodeFilter.FILTER_REJECT;
         return n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
       }
     });
