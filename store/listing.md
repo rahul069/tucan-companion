@@ -15,12 +15,13 @@ TUCaN Companion makes TU Darmstadt's TUCaN easier to use.
 • Weekly schedule as an agenda (with "next class") or the classic grid, plus week picker and keyboard navigation
 • Month view as a real calendar with full course names
 • Exams, module results and performance record: status colours (passed, incomplete, failed) and clearer layout
+• Degree progress: credits counted vs. required, what's missing per area, and where this semester's modules will count
 • Grade statistics: participants, average, pass rate and distribution chart
 • Registration: breadcrumb, area and course cards, deadline countdowns, clear Register/Deregister buttons
 • English translations for German leftovers (original text on hover)
 • Sign-in codes: shows your TU one-time code in the toolbar and fills it in on the TU login page (optional)
 
-Privacy: no data collection, no tracking, no network requests. Everything happens locally in your browser.
+Privacy: no data collection, no tracking. The only requests go to TUCaN itself, with your login, to read your module lists for the progress view.
 
 Unofficial student project, not affiliated with TU Darmstadt. Open source: https://github.com/rahul069/tucan-companion
 
@@ -35,7 +36,7 @@ Unofficial student project, not affiliated with TU Darmstadt. Open source: https
 
 **Remote code:** No. All code is included in the package.
 
-**Data usage:** Doesn't collect or transmit user data. The optional TOTP key is stored locally only.
+**Data usage:** Doesn't collect or transmit user data to the developer or third parties. Reads the user's own TUCaN pages (same site, user's session) to calculate degree progress; caches module lists locally. The optional TOTP key is stored locally only.
 
 **Privacy policy URL:** https://github.com/rahul069/tucan-companion/blob/main/PRIVACY.md
 

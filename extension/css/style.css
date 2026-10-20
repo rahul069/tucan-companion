@@ -858,3 +858,39 @@ html body .tuplan-status[data-tone='error']{ color: var(--danger) !important; }
   border-bottom: 0 !important;
   border-radius: var(--radius) var(--radius) 0 0 !important;
 }
+
+/* ---------- Degree progress (js/progress.js) ---------- */
+.tc-progress{
+  margin: 0 0 18px; padding: 16px 18px;
+  background: var(--surface) !important;
+  border: 1px solid var(--border); border-radius: 10px;
+}
+.tc-progress-head{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.tc-progress-head strong{ font-size: 16px !important; }
+.tc-progress-head span{ color: var(--muted) !important; }
+.tc-pbar{ position: relative; display: flex; height: 8px; background: var(--surface-3) !important; border-radius: 999px; overflow: hidden; }
+.tc-pbar-done{ background: var(--success) !important; }
+.tc-pbar-pending{ background: repeating-linear-gradient(45deg, var(--accent) 0 6px, #4a86c2 6px 12px) !important; }
+.tc-pbar-mark{ position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--text) !important; opacity: .7; }
+.tc-progress-facts{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+.tc-progress-facts > div{ display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; background: var(--surface-2) !important; border-radius: 8px; }
+.tc-progress-facts span{ color: var(--muted) !important; font-size: 11px !important; }
+.tc-progress-facts strong{ font-size: 15px !important; }
+.tc-progress-loading{ margin: 10px 0 0; color: var(--muted) !important; font-style: italic; }
+.tc-pending{ margin-top: 16px; }
+.tc-pending-title{ margin-bottom: 6px; color: var(--muted) !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .05em; text-transform: uppercase; }
+#pageContent table.tc-pending-table{ width: 100%; border: 0 !important; border-collapse: collapse; }
+#pageContent table.tc-pending-table th{ text-align: left; color: var(--muted) !important; font-weight: 600 !important; padding: 6px 8px !important; border-bottom: 1px solid var(--border) !important; }
+#pageContent table.tc-pending-table td{ padding: 7px 8px !important; border-bottom: 1px solid var(--border) !important; }
+.tc-pending-table .tc-code{ display: inline-block; padding: 1px 6px; margin-right: 4px; border-radius: 4px; background: var(--accent-bg) !important; color: var(--accent-hi) !important; font-size: 11px !important; }
+.tc-pending-table .tc-num{ white-space: nowrap; }
+.tc-muted{ color: var(--muted) !important; }
+.tc-pending-note{ margin: 8px 0 0; color: var(--muted) !important; font-size: 11px !important; }
+#pageContent tr.tc-area-progress > td{ padding: 4px 8px 10px 24px !important; background: transparent !important; border: 0 !important; }
+.tc-area-line{ display: grid; grid-template-columns: 180px auto 1fr; align-items: center; gap: 12px; }
+.tc-area-count{ font-weight: 600 !important; white-space: nowrap; }
+.tc-area-line.tc-ok .tc-area-msg{ color: var(--success) !important; }
+.tc-area-line.tc-soon .tc-area-msg{ color: var(--accent-hi) !important; }
+.tc-area-line.tc-need .tc-area-msg{ color: var(--warning) !important; }
+.tc-wip{ display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px; background: var(--accent-bg) !important; color: var(--accent-hi) !important; font-size: 11px !important; font-weight: 600 !important; }
+.tc-progress-facts small{ color: var(--muted) !important; font-size: 11px !important; line-height: 1.35; }

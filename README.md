@@ -20,6 +20,7 @@ The repo also contains an optional **AI assistant connector (MCP server)**. With
   - [Schedule](#schedule)
   - [Month view](#month-view)
   - [Exams](#exams)
+  - [Degree progress](#degree-progress)
   - [Grades and performance record](#grades-and-performance-record)
   - [Grade statistics](#grade-statistics)
   - [Registration](#registration)
@@ -40,6 +41,7 @@ The repo also contains an optional **AI assistant connector (MCP server)**. With
 | 📅 **Agenda schedule** | This week as a list per day with full course names, rooms and a "next class" banner. One click switches back to the classic grid. |
 | 🗓️ **Month calendar** | Real calendar tiles, today highlighted, entries with time and full course name. |
 | 📝 **Exams** | Each exam on its own row, with the module code as a tag and the sitting (1st/2nd/special) written out. Registered exams show a ✓ badge, past dates are dimmed. |
+| 🧮 **Degree progress** | On the performance record: credits counted vs. required, what's still missing per area, and where this semester's modules will count. |
 | 🎓 **Results** | Passed, incomplete and failed modules get a green, amber or red edge. Status words move into the status column. |
 | 📊 **Grade statistics** | The grade distribution popup gets participants, average, pass rate and a bar chart. |
 | 🧭 **Registration** | A short breadcrumb, area cards, course cards with codes, deadline countdowns ("5 days left") and big Register buttons. |
@@ -105,6 +107,27 @@ Each day is a tile with its classes, for example *15:20 Scalable Data Management
 
 Each exam shows its module code, the full name and date. **Unregister** is shown in red so you can't mistake it for a link.
 
+### Degree progress
+
+`Examinations → Performance Record`
+
+![Degree progress](docs/images/degree-progress.png)
+
+At the top of your performance record:
+
+- **Overall:** credits counted vs. required (e.g. *53 of 120*), what's in progress and how much of it can still count, and what would be left if you pass everything.
+- **Still short:** areas that won't reach their minimum even if you pass all current modules, e.g. *AI Domains and Applications (3,0)*. Plan your next semester with these.
+- **In progress, where the credits will count:** every module you're registered for this semester, plus open or incomplete ones, with its credits and the area it counts towards.
+- **Under every area** of the record: a bar and a short line, such as
+  - *7,0 more CP needed · 6,0 CP in progress, 1,0 still missing*
+  - *12,0 more CP needed · 18,0 CP in progress, enough if you pass*
+  - *No minimum · 9,0 CP in progress (only 6,0 will count)*, when an area would go over its maximum
+- **Next to open modules:** their credits, e.g. *in progress · 6,0 CP*.
+
+How it works: the credit rules come from the record itself. Credits of open modules come from *My Modules*, and this semester's modules from *My Current Registrations*. For new modules that aren't on your record yet, the extension checks where TUCaN offers them in *Registration*. Your browser reads these TUCaN pages in the background with your session; no other site is contacted. Results are cached in your browser for 6–12 hours (the area list for a week).
+
+> TUCaN decides the final area when you register for the exam. "Counts towards" for new modules is a preview based on where the module is offered.
+
 ### Grades and performance record
 
 `Examinations → Performance Record` and `Semester Results → Module Results`
@@ -169,7 +192,7 @@ TU's login asks for a 6-digit code from an authenticator app. TUCaN Companion ca
 
 ## Privacy and security
 
-- **No data leaves your computer.** The extension makes **no network requests** of its own: no analytics, no servers, no tracking. It only changes how TUCaN pages look, locally.
+- **No data leaves your computer.** No analytics, no servers, no tracking. The only requests the extension makes are to TUCaN itself, with your session, to read your module lists for the degree-progress view.
 - **It only runs on** `www.tucan.tu-darmstadt.de` (theme), `dsf.tucan.tu-darmstadt.de` (logout page styling) and `login.tu-darmstadt.de` (code filling).
 - **Permissions:** `storage`, to remember your view choice and your sign-in key (if you add one), and `clipboardWrite`, so clicking the code copies it.
 - **Open source:** everything is in this repo. Read it, or build it yourself.

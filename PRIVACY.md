@@ -6,13 +6,14 @@ TUCaN Companion is a browser extension that changes how TU Darmstadt's TUCaN pag
 
 ## What the extension collects
 
-**Nothing.** The extension doesn't collect, transmit, sell or share any personal data. It makes no network requests of its own and contains no analytics or tracking.
+**Nothing.** The extension doesn't collect, transmit, sell or share any personal data, and contains no analytics or tracking. The only network requests it makes go to TUCaN itself (`www.tucan.tu-darmstadt.de`), using your existing login: on the performance record page it reads *My Modules*, *My Current Registrations* and the *Registration* overview to calculate your degree progress.
 
 ## What it stores on your device
 
 Using Chrome's local extension storage (`chrome.storage.local` and the page's `localStorage`/`sessionStorage`), only on your computer:
 
 - **View preferences**, such as whether the schedule shows *Agenda* or *Grid*.
+- **A short-lived copy of your module list** (codes, names, credits, and which area offers them) for the degree-progress view, refreshed every 6–12 hours (the area list weekly).
 - **Your sign-in key**, only if you add one in the popup, so the extension can show and fill your TU one-time code. It never leaves your browser. You can delete it any time with **Remove key** in the popup, or by removing the extension.
 
 ## Where it runs
