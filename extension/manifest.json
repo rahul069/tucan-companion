@@ -1,0 +1,59 @@
+{
+  "manifest_version": 3,
+  "name": "TUCaN Companion – Dark Mode, Schedule & Sign-in Codes",
+  "short_name": "TUCaN Companion",
+  "version": "1.0.0",
+  "description": "Unofficial helper for TU Darmstadt's TUCaN: dark theme, clearer schedule, exams and grades, English translation and automatic sign-in codes.",
+  "homepage_url": "https://github.com/rahul069/tucan-companion",
+  "icons": {
+    "16": "icons/icon_16.png",
+    "32": "icons/icon_32.png",
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "permissions": ["storage", "clipboardWrite"],
+  "action": {
+    "default_title": "TUCaN Companion",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon_16.png",
+      "32": "icons/icon_32.png",
+      "48": "icons/icon_48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.tucan.tu-darmstadt.de/*"],
+      "css": ["css/style.css"],
+      "js": ["lib/jquery.min.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.tucan.tu-darmstadt.de/*"],
+      "js": [
+        "js/header.js",
+        "js/results.js",
+        "js/grades.js",
+        "js/schedule.js",
+        "js/month.js",
+        "js/registration.js",
+        "js/exams.js",
+        "js/home.js",
+        "js/translate.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://login.tu-darmstadt.de/*"],
+      "js": ["js/totp.js", "js/otp.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["fonts/DMSans-Regular.ttf", "fonts/fa-solid-900.woff2"],
+      "matches": ["https://www.tucan.tu-darmstadt.de/*"]
+    }
+  ]
+}

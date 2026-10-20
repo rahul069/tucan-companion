@@ -1,0 +1,50 @@
+:root{
+  --bg: #12161c; --surface: #181d24; --surface-2: #1e242c; --border: #2f3742;
+  --text: #e4e7eb; --muted: #98a2ae; --accent: #5a9ad6; --accent-hi: #82b4e4;
+  --accent-bg: #1d2c3e; --success: #4fae84; --danger: #d06464;
+}
+@font-face{ font-family: "DM Sans"; src: url("../fonts/DMSans-Regular.ttf"); }
+*{ box-sizing: border-box; }
+body{
+  width: 300px; margin: 0; padding: 14px; background: var(--bg); color: var(--text);
+  font: 13px/1.45 "DM Sans", system-ui, sans-serif;
+}
+header{ display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+header img{ width: 28px; height: 28px; }
+header div{ display: flex; flex-direction: column; }
+header span{ color: var(--muted); font-size: 12px; }
+
+#code{
+  width: 100%; padding: 14px 0; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); color: var(--accent-hi); cursor: pointer;
+  font: 600 34px/1 ui-monospace, "DejaVu Sans Mono", monospace; letter-spacing: 3px;
+  transition: border-color .15s, background .15s;
+}
+#code:hover{ border-color: var(--accent); background: var(--surface-2); }
+#code.copied{ border-color: var(--success); color: var(--success); }
+.timer{ height: 4px; margin: 10px 0 6px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+#bar{ height: 100%; background: var(--accent); transition: width 1s linear; }
+#bar.low{ background: var(--danger); }
+.row{ display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 14px; }
+.muted{ color: var(--muted); }
+.small{ font-size: 11.5px; }
+
+.toggle{ display: flex; align-items: center; gap: 8px; padding: 7px 0; cursor: pointer; border-top: 1px solid var(--border); }
+.toggle input{ accent-color: var(--accent); width: 15px; height: 15px; margin: 0; }
+.toggle.off{ opacity: .45; pointer-events: none; }
+
+p{ margin: 0 0 10px; }
+code{ color: var(--accent-hi); }
+textarea{
+  width: 100%; resize: none; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text); font: 13px ui-monospace, monospace; outline: none;
+}
+textarea:focus{ border-color: var(--accent); }
+.error{ color: var(--danger); font-size: 12px; min-height: 16px; margin: 4px 0; }
+button.primary{
+  width: 100%; padding: 9px; margin-bottom: 12px; border: 0; border-radius: 8px; cursor: pointer;
+  background: var(--accent); color: #fff; font: 600 13px "DM Sans", system-ui, sans-serif;
+}
+button.primary:hover{ background: var(--accent-hi); }
+button.link{ background: none; border: 0; padding: 8px 0 0; cursor: pointer; font: 12px "DM Sans", system-ui, sans-serif; }
+button.danger{ color: var(--danger); }

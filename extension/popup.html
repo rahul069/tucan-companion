@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TUCaN Companion</title>
+<link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon_32.png" alt="">
+    <div><strong>TUCaN Companion</strong><span>Sign-in code</span></div>
+  </header>
+
+  <section id="main" hidden>
+    <button id="code" title="Click to copy"><span id="digits">––– –––</span></button>
+    <div class="timer"><div id="bar"></div></div>
+    <div class="row muted"><span id="left">30 s</span><span id="copied">Click the code to copy</span></div>
+
+    <label class="toggle"><input type="checkbox" id="autofill"><span>Fill the code on the TU login page</span></label>
+    <label class="toggle"><input type="checkbox" id="autosubmit"><span>Then sign in automatically</span></label>
+    <button id="remove" class="link danger">Remove key</button>
+  </section>
+
+  <section id="setup" hidden>
+    <p>Paste the <b>secret key</b> of your TU TOTP token, or the <code>otpauth://</code> link from its QR code.</p>
+    <textarea id="secret" rows="3" spellcheck="false" placeholder="e.g. JBSW Y3DP EHPK 3PXP …"></textarea>
+    <div id="error" class="error"></div>
+    <button id="save" class="primary">Save key</button>
+    <p class="muted small">Where to find it: on the TU login page open <b>2FA-Management</b>, add a new TOTP token and copy the key shown next to its QR code. Scan the same QR code with your phone app too, so both keep working.</p>
+    <p class="muted small">The key is stored only in this Chrome profile (not encrypted). Anyone with access to this browser could generate your codes.</p>
+  </section>
+
+  <script src="js/totp.js"></script>
+  <script src="js/popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,842 @@
+/* TUCaN Companion – dark theme for tucan.tu-darmstadt.de
+   Layout pieces built by the scripts (header, schedule, cards …) follow the base. */
+
+:root{
+  --bg:        #12161c;
+  --surface:   #181d24;
+  --surface-2: #1e242c;
+  --surface-3: #262d37;
+  --border:    #2f3742;
+  --text:      #e4e7eb;
+  --muted:     #98a2ae;
+  --accent:    #5a9ad6;
+  --accent-hi: #82b4e4;
+  --accent-bg: #1d2c3e;
+  --success:   #4fae84;
+  --warning:   #d9a441;
+  --danger:    #d06464;
+  --radius:    6px;
+  --font:      'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --icons:     'Font Awesome 5';
+}
+
+@font-face{ font-family: 'DM Sans'; src: url('chrome-extension://__MSG_@@extension_id__/fonts/DMSans-Regular.ttf'); }
+@font-face{ font-family: 'Font Awesome 5'; font-weight: 900; src: url('chrome-extension://__MSG_@@extension_id__/fonts/fa-solid-900.woff2'); }
+
+/* ---------- Page ---------- */
+/* TUCaN sets colours on almost every element, often with !important,
+   so the theme has to reach every element too. */
+*{
+  color: var(--text) !important;
+  font-family: var(--font) !important;
+  font-size: 12px !important;
+}
+html, body{ background-color: var(--bg) !important; }
+body{
+  line-height: 1.45;
+  background: radial-gradient(900px 260px at 18% -40px, rgba(90,154,214,.16), transparent 70%) no-repeat, var(--bg) !important;
+}
+#pageContainer, #pageFoot, #inhalt, #inhalt div, #pageTopNavi a{
+  background-color: transparent !important;
+  border-color: var(--border) !important;
+}
+#inhalt, #inhalt strong{ font-size: 13px !important; }
+/* TUCaN's own logo images: our header shows the names instead. */
+#imagePageHeadLeft, #logo, #pageHeadRight img{ display: none !important; }
+
+h1, h2, h3{ font-weight: 600 !important; letter-spacing: -0.01em; }
+h1{ font-size: 23px !important; }
+h2{ font-size: 18px !important; }
+h3{ font-size: 15px !important; }
+h2 + h2{ font-size: 15px !important; color: var(--muted) !important; }
+
+a, a.img, .arrow{ color: var(--accent) !important; }
+a:hover, a:hover *{ color: var(--accent-hi) !important; }
+#pageContent a span{ color: inherit !important; }
+strong, b{ font-weight: 600 !important; }
+i, em{ color: var(--muted) !important; }
+#inhalt p[style*="darkred"]{ color: var(--danger) !important; }
+
+/* ---------- Original header/menu (before our header replaces it) ---------- */
+#pageHead, #pageHeadBottom_3{ border-color: var(--border) !important; }
+#pageHeadBottom_3{ color: var(--muted) !important; }
+#pageTopNavi{
+  background: transparent none !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+#pageTopNavi ul.nav li a.depth_1{ border-color: var(--border) !important; }
+#pageTopNavi ul.nav.depth_2{
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 0 var(--radius) var(--radius) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35) !important;
+}
+
+/* ---------- Tables ---------- */
+table, th, .tbhead, .tbcontrol, .tbsubhead, .tbLeftCol{ background-color: transparent !important; }
+table.nb, table.tb{ border-collapse: collapse !important; border: 1px solid var(--border) !important; }
+.nb th, .nb td, .tb th, .tb td, .tbdata{ border-color: var(--border) !important; }
+.nb caption, .tb caption, .tbhead, .tbhead td{
+  background-color: var(--surface-2) !important;
+  font-weight: 600 !important;
+}
+.tbsubhead, .tbsubhead td, .tbsubhead th{
+  background-color: var(--surface) !important;
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+}
+#pageContentPopUp table, #pageContentPopUp .tbdata, #pageContentPopUp .tbcontrol{ border-color: var(--border) !important; }
+#pageContentPopUp .tbsubhead{ background-color: var(--surface-2) !important; }
+#pageContent .tbdata strong a, #pageContent .tbsubhead strong a{ color: var(--accent) !important; }
+
+/* ---------- Week grid ---------- */
+.tbtime11, .tbtime01, .fulltime{ background-color: var(--surface) !important; }
+.tbtime12, .tbtime02{ background-color: var(--surface-2) !important; }
+.fulltime{ border-right: 0 !important; }
+.weekday{ border-left: 1px solid var(--border) !important; }
+html body td.appointment{
+  background: #1d3047 !important;
+  border: 1px solid #2c4a6b !important;
+  border-left: 3px solid var(--accent) !important;
+  border-radius: 6px !important;
+  padding: 6px 8px !important;
+  vertical-align: top !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+html body td.appointment:hover{ background: #23395a !important; }
+html body td.appointment *{ background: transparent !important; }
+td.appointment, td.appointment span{ color: var(--muted) !important; font-size: 11px !important; }
+td.appointment a{ color: var(--text) !important; font-weight: 600 !important; text-decoration: none !important; }
+td.appointment a:hover{ color: var(--accent-hi) !important; }
+td.appointment a::before{ content: none !important; }
+
+/* ---------- Module trees (performance record, module lists) ----------
+   Rows carry classes level00, level01 … and TUCaN forces them black. */
+[class*="level"], [class*="level"] > td, [class*="level"] > th{
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+.level00, .level00 > td, .level00 > th{ background-color: var(--accent-bg) !important; font-weight: 600 !important; }
+.level01, .level01 > td, .level01 > th{ background-color: var(--surface-3) !important; font-weight: 600 !important; }
+.level02, .level02 > td, .level02 > th{ background-color: var(--surface-2) !important; }
+body [class*="level"], body [class*="level"] > td{ color: var(--text) !important; }
+body [class*="level"] a{ color: var(--accent) !important; }
+
+/* Result rows tagged by results.js */
+tr.tc-row > td{
+  background-color: #1b2534 !important;
+  border-top: 4px solid var(--bg) !important;
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+}
+tr.tc-row > td:first-child{ border-left: 4px solid var(--muted) !important; padding-left: 8px !important; }
+html body tr.tc-pass > td:first-child{ border-left-color: var(--success) !important; }
+html body tr.tc-incomplete > td:first-child{ border-left-color: var(--warning) !important; }
+html body tr.tc-fail > td:first-child{ border-left-color: var(--danger) !important; }
+tr.tc-row:hover > td{ background-color: #22324a !important; }
+tr.tc-row a{ font-weight: 600 !important; }
+td.tc-status-pass{ color: var(--success) !important; font-weight: 600 !important; }
+td.tc-status-incomplete{ color: var(--warning) !important; font-weight: 600 !important; }
+td.tc-status-fail{ color: var(--danger) !important; font-weight: 600 !important; }
+.detailout a, ul.courseList li.courseListCellHover{ background-color: transparent !important; }
+ul.courseList li.courseListCellHover.numout3{ background-color: var(--accent-bg) !important; }
+
+/* ---------- Sidebar (TUCaN's 2nd/3rd menu level) ----------
+   TUCaN's hover rule is !important with an ID; the doubled ID wins. */
+#pageTopNavi#pageTopNavi ul.depth_2 li, #pageTopNavi#pageTopNavi ul.depth_2 a,
+#pageTopNavi#pageTopNavi ul.depth_3 li, #pageTopNavi#pageTopNavi ul.depth_3 a{
+  background-color: var(--surface) !important;
+  background-image: none !important;
+  border-color: var(--border) !important;
+  text-decoration: none !important;
+}
+#pageTopNavi#pageTopNavi ul.depth_2 li a:hover, #pageTopNavi#pageTopNavi ul.depth_3 li a:hover{
+  background-color: var(--surface-3) !important;
+  box-shadow: inset 3px 0 0 var(--accent) !important;
+  color: #fff !important;
+}
+
+/* ---------- Forms ---------- */
+input[type="text"], input[type="password"], input:not([type]), select, textarea{
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 3px 7px !important;
+  outline: none !important;
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px rgba(90,154,214,.25) !important;
+}
+option{ background-color: var(--surface) !important; }
+.tbcontrol .inputFieldLabel select{ margin-left: 5px !important; }
+.cn_button{
+  background: none !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+}
+.cn_button:hover{ border-color: var(--accent) !important; }
+a.img, .img, .arrow, #pageFootControlsLeft a, .rw-mailsubject a{ text-decoration: none !important; }
+
+/* ---------- Icons ----------
+   TUCaN draws its arrows as GIF backgrounds; swap them for font icons.
+   Each kind only sets --tc-glyph. */
+.img, .arrow, #pageFootControl_imp, #pageFootControl_con, #pageFootControl_pri,
+#pageTopNavi ul.nav li[id^="link"] > a{ background-image: none !important; }
+.img:not(#pageFootControl_up)::before, .arrow::before{
+  content: var(--tc-glyph, "\f054") !important;
+  font-family: var(--icons) !important;
+  font-weight: 900 !important;
+  font-size: 9px !important;
+  margin: 0 5px 0 2px !important;
+}
+.img.img_arrowLeft{ --tc-glyph: "\f0a8"; }
+.img.img_arrowRight{ --tc-glyph: "\f0a9"; }
+.img.img_arrowLeftRed{ --tc-glyph: "\f053"; color: var(--danger) !important; }
+.img.img_arrowReload{ --tc-glyph: "\f2f1"; }
+.img.img_arrowLeft::before, .img.img_arrowRight::before, .img.img_arrowLeftRed::before,
+.img.img_arrowReload::before{ font-size: 12px !important; margin: 2px !important; }
+.inputFieldLabel .img.img_arrowReload{ padding-left: 5px !important; }
+
+/* ---------- Grade distribution (js/grades.js) ---------- */
+.tc-grades{
+  max-width: 640px;
+  margin: 14px auto 22px;
+  padding: 16px 18px;
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.tc-grade-tiles{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.tc-grade-tile{
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 12px;
+  background: var(--surface-2) !important;
+  border-radius: 8px;
+}
+.tc-grade-tile span{ color: var(--muted) !important; font-size: 11px !important; }
+.tc-grade-tile strong{ font-size: 18px !important; }
+.tc-grade-tile.tc-good strong{ color: var(--success) !important; }
+.tc-grade-tile.tc-bad strong{ color: var(--danger) !important; }
+.tc-pass-meter{
+  height: 6px; margin: 14px 0 18px;
+  background: var(--danger) !important;
+  border-radius: 999px; overflow: hidden;
+}
+.tc-pass-meter > div{ height: 100%; background: var(--success) !important; }
+.tc-histogram{ display: flex; align-items: flex-end; gap: 6px; height: 150px; }
+.tc-hist-col{ flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.tc-hist-track{ flex: 1; width: 100%; display: flex; align-items: flex-end; }
+.tc-hist-bar{
+  width: 100%; min-height: 2px;
+  background: var(--accent) !important;
+  border-radius: 4px 4px 0 0;
+  animation: tc-grow .6s ease-out;
+}
+.tc-hist-col.tc-bad .tc-hist-bar{ background: var(--danger) !important; }
+.tc-hist-share{ height: 16px; color: var(--muted) !important; font-size: 10px !important; }
+.tc-hist-label{ margin-top: 5px; color: var(--muted) !important; font-size: 11px !important; }
+.tc-grade-note{ margin: 12px 0 0; text-align: right; color: var(--muted) !important; font-size: 11px !important; }
+@keyframes tc-grow{ from{ height: 0; } }
+
+/* ===================== Header (built by js/header.js) ===================== */
+
+/* Hide TUCaN's original header pieces once our bar exists */
+.tc-header-on #pageHeadCenter,
+.tc-header-on #pageHeadBottom_3{ display: none !important; }
+.tc-header-on #pageHead{ border: 0 !important; margin-bottom: 20px !important; padding: 0 !important; overflow: visible !important; }
+/* The original top nav stays only to carry the sidebar menu */
+.tc-header-on #pageTopNavi#pageTopNavi{
+  background-image: none !important;
+  border: 0 !important;
+  height: 0 !important;
+  pointer-events: none;
+}
+.tc-header-on #pageTopNavi a.depth_1{ visibility: hidden !important; }
+.tc-header-on #pageTopNavi ul.depth_2{ pointer-events: auto; }
+/* Collapsed sub-menus of other sections are empty but would still draw their borders */
+.tc-header-on #pageTopNavi#pageTopNavi ul.nav.depth_2:not(.tc-side){
+  border: 0 !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+.tc-header{
+  margin: 14px 0 0;
+  background: rgba(24, 29, 36, .88);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.30);
+  overflow: hidden;
+}
+.tc-main{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+}
+#pageHead .tc-logo .tc-word{
+  display: block; font-size: 24px !important; font-weight: 700 !important; letter-spacing: -.02em;
+  color: var(--text) !important;
+}
+#pageHead .tc-tu .tc-word{
+  display: flex; flex-direction: column; align-items: flex-end; line-height: 1.15;
+  font-size: 14px !important; font-weight: 600 !important; color: var(--muted) !important;
+}
+#pageHead .tc-tu .tc-word small{ font-size: 10px !important; font-weight: 400 !important; color: var(--muted) !important; }
+#pageHead .tc-tu:hover .tc-word, #pageHead .tc-tu:hover .tc-word small{ color: var(--text) !important; }
+.tc-logo, .tc-tu{ flex: none; background: none !important; text-decoration: none !important; }
+#pageHead .tc-logo *, #pageHead .tc-tu *{ text-decoration: none !important; }
+.tc-logo::before, .tc-tu::before{ content: none !important; }
+
+.tc-menu{
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+}
+.tc-menu a{
+  padding: 6px 10px !important;
+  border-radius: 8px;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: background-color .15s, color .15s;
+}
+.tc-menu a:hover{ background: var(--surface-3); color: #fff !important; }
+.tc-menu a.active{ background: var(--accent-bg); color: var(--accent-hi) !important; box-shadow: inset 0 -2px 0 var(--accent); }
+
+.tc-sub{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 22px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* Login info: drop the "Name: / on: / on:" labels, use icons instead */
+.tc-sub #loginData{
+  position: static !important;
+  display: flex !important;
+  align-items: center;
+  gap: 18px;
+  margin: 0 !important;
+}
+#loginData .loginDataLoggedAs, #loginData b{ display: none !important; }
+#loginData span{ color: var(--muted) !important; font-size: 12px !important; margin: 0 !important; }
+#loginData .loginDataName{ color: var(--text) !important; font-weight: 600 !important; }
+#loginData .loginDataName::before,
+#loginData .loginDataDate::before,
+#loginData .loginDataTime::before{
+  font-family: 'Font Awesome 5' !important;
+  font-weight: 900 !important;
+  font-size: 10px !important;
+  margin-right: 7px;
+  color: var(--accent) !important;
+}
+#loginData .loginDataName::before{ content: "\f007"; }
+#loginData .loginDataDate::before{ content: "\f073"; }
+#loginData .loginDataTime::before{ content: "\f017"; }
+
+/* Language + logout buttons */
+.tc-actions{ display: flex; align-items: center; gap: 8px; }
+.tc-actions a{
+  position: static !important;
+  float: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  margin: 0 !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  padding: 4px 12px !important;
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: border-color .15s, background-color .15s;
+}
+#pageHead .tc-actions a.img::before{
+  font-family: 'Font Awesome 5' !important;
+  font-weight: 900 !important;
+  font-size: 10px !important;
+  margin: 0 7px 0 0 !important;
+  content: "\f0ac" !important;
+}
+#pageHead .tc-actions a#logoutButton.img::before{ content: "\f2f5" !important; }
+.tc-actions a:hover{ border-color: var(--accent) !important; background: var(--accent-bg) !important; color: #fff !important; }
+.tc-actions a#logoutButton:hover{ border-color: var(--danger) !important; background: rgba(208,100,100,.14) !important; }
+
+/* TUCaN pads the content top to clear its old overlapping header; not needed now */
+.tc-header-on #pageContent{ padding-top: 0 !important; }
+.tc-header-on #pageContentTop{ padding-top: 0 !important; }
+.tc-header-on #pageContent h1:first-child, .tc-header-on #pageContent h1{ margin-top: 0 !important; }
+
+/* Page title */
+#pageContent h1{
+  font-size: 1.9em !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 14px !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* ===================== Schedule page ===================== */
+.tc-schedule #pageContent td, .tc-schedule #pageContent th{
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  line-height: 1.25 !important;
+}
+.tc-schedule .tc-quarter{ color: var(--muted) !important; font-size: 10px !important; opacity: .6; }
+.tc-schedule .tc-hour{ color: var(--text) !important; font-weight: 600 !important; }
+.tc-schedule .tc-today{ background: var(--accent-bg) !important; box-shadow: inset 0 -2px 0 var(--accent); }
+.tc-schedule .tc-today a{ color: var(--accent-hi) !important; }
+.tc-schedule #pageContent th a, .tc-schedule #pageContent td a{ text-decoration: none !important; }
+
+/* Schedule toolbar */
+.tc-sched-bar{ display: flex; justify-content: space-between; align-items: center; margin: 0 0 10px; }
+.tc-seg{ display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 3px; gap: 2px; }
+#pageContent .tc-sched-bar a{
+  padding: 5px 14px !important;
+  border-radius: 7px;
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+#pageContent .tc-sched-bar a::before{ content: none !important; }
+#pageContent .tc-seg a.on{ background: var(--accent-bg); color: var(--accent-hi) !important; box-shadow: inset 0 0 0 1px #2c4a6b; }
+#pageContent .tc-seg a:hover{ color: var(--text) !important; }
+#pageContent a.tc-full{ border: 1px solid var(--border); background: var(--surface-2); color: var(--text) !important; }
+#pageContent a.tc-full:hover{ border-color: var(--accent); }
+
+/* Agenda */
+.tc-agenda{ margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.tc-next{
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, #1d3047, var(--surface));
+  border: 1px solid #2c4a6b; border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+.tc-next .tc-next-label{ color: var(--accent-hi) !important; font-size: 11px !important; font-weight: 600 !important; text-transform: uppercase; letter-spacing: .06em; }
+.tc-next strong{ color: #fff !important; font-size: 14px !important; }
+.tc-next span{ color: var(--muted) !important; }
+.tc-day{
+  display: grid; grid-template-columns: 120px 1fr; gap: 12px;
+  padding: 10px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+}
+.tc-day-today{ border-color: #2c4a6b; box-shadow: inset 3px 0 0 var(--accent); }
+.tc-day-past{ opacity: .55; }
+.tc-day-label{ font-weight: 600 !important; color: var(--text) !important; padding-top: 2px; }
+.tc-pill{ display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 999px; background: var(--accent-bg); color: var(--accent-hi) !important; font-size: 10px !important; }
+.tc-day-items{ display: flex; flex-direction: column; gap: 6px; }
+.tc-item{ display: grid; grid-template-columns: 96px 1fr auto; gap: 12px; align-items: baseline; }
+.tc-time{ color: var(--accent-hi) !important; font-variant-numeric: tabular-nums; font-weight: 600 !important; }
+#pageContent a.tc-name{ color: var(--text) !important; font-weight: 600 !important; text-decoration: none !important; }
+#pageContent a.tc-name:hover{ color: var(--accent-hi) !important; }
+#pageContent a.tc-name::before{ content: none !important; }
+.tc-room{ color: var(--muted) !important; text-align: right; }
+.tc-free{ color: var(--muted) !important; font-style: italic; }
+
+/* Week navigation */
+.tc-weeknav{ display: inline-flex; gap: 6px; }
+#pageContent .tc-weeknav a{
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text) !important;
+}
+#pageContent .tc-weeknav a:hover{ border-color: var(--accent); background: var(--accent-bg); color: #fff !important; }
+
+/* Schedule control card */
+.tc-sched-bar.tc-card{
+  display: block;
+  background: linear-gradient(135deg, #1b2738 0%, var(--surface) 60%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  margin: 0 0 14px;
+  overflow: hidden;
+}
+.tc-sched-top{
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 18px 12px;
+}
+.tc-week-title{ display: flex; flex-direction: column; gap: 2px; }
+.tc-week-title strong{ font-size: 20px !important; color: #fff !important; letter-spacing: -.01em; }
+.tc-week-title span{ color: var(--muted) !important; font-size: 12px !important; }
+.tc-sched-controls{
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  padding: 10px 18px;
+  background: rgba(0,0,0,.18);
+  border-top: 1px solid var(--border);
+}
+.tc-sched-right{ display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+.tc-stepper{ display: inline-flex; align-items: center; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 3px; }
+#pageContent .tc-stepper a{ border: 0 !important; background: none; color: var(--text) !important; }
+#pageContent .tc-stepper a.tc-icon{ font-size: 18px !important; line-height: 1; padding: 3px 12px !important; }
+#pageContent .tc-stepper a:hover{ background: var(--surface-3); color: #fff !important; }
+#pageContent .tc-stepper a.tc-today-btn{ background: var(--accent-bg); color: var(--accent-hi) !important; }
+
+.tc-views{ margin-left: 8px; }
+
+select.tc-picker{
+  appearance: none; -webkit-appearance: none;
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2398a2ae'/%3E%3C/svg%3E") no-repeat right 10px center !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  padding: 5px 28px 5px 10px !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+select.tc-picker:hover{ border-color: var(--accent) !important; }
+
+#pageContent a.tc-print{ border: 1px solid var(--border); background: var(--surface-2); padding: 5px 10px !important; }
+#pageContent a.tc-print::before{ content: "\f02f" !important; font-family: 'Font Awesome 5' !important; font-weight: 900 !important; font-size: 12px !important; }
+#pageContent a.tc-print:hover{ border-color: var(--accent); }
+
+/* ===================== Month view ===================== */
+.tc-month table.tc-mtable{ width: 100% !important; table-layout: fixed !important; border-collapse: separate !important; border-spacing: 5px !important; border: 0 !important; }
+.tc-month table.tc-minner{ width: 100% !important; border: 0 !important; border-collapse: collapse !important; border-spacing: 0 !important; background: none !important; }
+.tc-month table.tc-minner td, .tc-month table.tc-minner th{ border: 0 !important; background: none !important; padding: 0 !important; }
+.tc-month table.tc-mtable > tbody > tr > td, .tc-month table.tc-mtable > tbody > tr > th{ width: auto !important; }
+
+.tc-month tr.tc-month-head > *{
+  background: none !important; border: 0 !important;
+  color: var(--muted) !important; font-weight: 600 !important;
+  text-transform: uppercase; letter-spacing: .05em; font-size: 11px !important;
+  text-align: center !important; padding: 4px 0 !important;
+}
+.tc-month tr.tc-month-head > *:first-child{ width: 34px !important; }
+.tc-month .tc-cw{ background: none !important; border: 0 !important; text-align: center !important; vertical-align: middle !important; width: 34px !important; }
+.tc-month .tc-cw, .tc-month .tc-cw a{ color: var(--muted) !important; font-size: 11px !important; text-decoration: none !important; }
+.tc-month .tc-cw a:hover{ color: var(--accent-hi) !important; }
+
+/* Day tile */
+.tc-month td.tc-mday{
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 9px !important;
+  height: 78px !important;
+  vertical-align: top !important;
+  padding: 6px 7px !important;
+  transition: border-color .15s;
+}
+.tc-month td.tc-mday:hover{ border-color: #3a4656 !important; }
+.tc-month .tc-mnum-cell{ text-align: left !important; }
+.tc-month a.tc-mnum{
+  display: inline-block; min-width: 22px; text-align: center;
+  border-radius: 999px; padding: 1px 5px !important;
+  color: var(--text) !important; font-weight: 600 !important; text-decoration: none !important;
+  background: none !important; border: 0 !important; white-space: nowrap; margin: 0 !important;
+}
+.tc-month a.tc-mnum:hover{ background: var(--surface-3) !important; }
+.tc-month td.tc-mblank{ background: none !important; border: 1px dashed rgba(255,255,255,.06) !important; border-radius: 9px !important; }
+.tc-month td.tc-weekend.tc-mday{ background: var(--surface) !important; }
+.tc-month td.tc-weekend a.tc-mnum{ color: var(--muted) !important; }
+
+/* Today */
+.tc-month td.tc-mtoday{ border-color: var(--accent) !important; background: var(--accent-bg) !important; box-shadow: 0 0 0 1px var(--accent) inset; }
+.tc-month td.tc-mtoday a.tc-mnum{ background: var(--accent) !important; color: #fff !important; }
+
+/* Entries inside a day */
+.tc-month td.tc-mday a:not(.tc-mnum), .tc-month td.tc-mday .appointment{
+  display: block; margin: 4px 0 0;
+  background: #1d3047 !important; border-left: 3px solid var(--accent) !important;
+  border-radius: 4px; padding: 2px 6px !important;
+  color: var(--text) !important; font-size: 11px !important; text-decoration: none !important;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tc-month td.tc-mday a::before{ content: none !important; }
+
+/* Schedule pages: the card replaces the big page heading */
+.tc-schedule #pageContent h1, .tc-month #pageContent h1{ display: none !important; }
+.tc-week-title em.tc-eyebrow{
+  font-style: normal; text-transform: uppercase; letter-spacing: .08em;
+  font-size: 10px !important; font-weight: 600 !important; color: var(--accent-hi) !important;
+  margin-bottom: 2px;
+}
+/* Avoid a flash of the old week while jumping to today's */
+.tc-jumping #pageContent{ visibility: hidden; }
+
+/* ===================== Registration ===================== */
+/* Breadcrumb */
+.tc-registration #pageContent .tc-crumbs{
+  display: flex !important; flex-wrap: wrap; align-items: center; gap: 4px 2px;
+  padding: 10px 14px !important; margin: 0 0 16px !important;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  font-size: 12px !important;
+}
+.tc-registration #pageContent .tc-crumbs > a{
+  color: var(--muted) !important; text-decoration: none !important;
+  padding: 3px 8px !important; border-radius: 6px; font-size: 12px !important;
+}
+.tc-registration #pageContent .tc-crumbs > a:hover{ background: var(--surface-3); color: var(--text) !important; }
+.tc-registration #pageContent .tc-crumbs > a.tc-crumb-current{ color: #fff !important; font-weight: 600 !important; }
+.tc-registration #pageContent .tc-crumbs > a::before{ content: none !important; }
+.tc-registration #pageContent .tc-crumbs > a + a::before, .tc-registration #pageContent .tc-crumbs > .tc-crumb-more + a::before{
+  content: "\f054" !important; font-family: 'Font Awesome 5' !important; font-weight: 900 !important;
+  font-size: 8px !important; color: var(--muted); margin: 0 8px 0 0 !important; opacity: .6;
+}
+.tc-registration #pageContent .tc-crumbs-collapsed > a.tc-crumb-mid{ display: none !important; }
+.tc-registration #pageContent .tc-crumbs > a.tc-crumb-more{ color: var(--muted) !important; font-weight: 600 !important; }
+/* hide TUCaN's own ">" separators (text or icon elements between the links) */
+.tc-registration #pageContent .tc-crumbs > :not(a){ display: none !important; }
+
+/* Category cards */
+.tc-cats-hint{ color: var(--muted) !important; font-size: 11px !important; text-transform: uppercase; letter-spacing: .06em; font-weight: 600 !important; margin: 4px 0 8px; }
+.tc-registration #pageContent ul.tc-cats{
+  list-style: none !important; margin: 0 0 16px !important; padding: 0 !important;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px;
+}
+.tc-registration #pageContent ul.tc-cats > li{ margin: 0 !important; padding: 0 !important; list-style: none !important; background: none !important; }
+.tc-registration #pageContent ul.tc-cats > li > a{
+  display: flex !important; align-items: center; gap: 12px;
+  padding: 14px 16px !important;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text) !important; font-weight: 600 !important; font-size: 13px !important;
+  text-decoration: none !important;
+  transition: border-color .15s, background-color .15s, transform .15s;
+}
+.tc-registration #pageContent ul.tc-cats > li > a::before{
+  content: "\f07b" !important; font-family: 'Font Awesome 5' !important; font-weight: 900 !important;
+  font-size: 14px !important; color: var(--accent) !important; margin: 0 !important;
+}
+.tc-registration #pageContent ul.tc-cats > li > a::after{
+  content: "\f054"; font-family: 'Font Awesome 5'; font-weight: 900;
+  font-size: 10px !important; color: var(--muted); margin-left: auto;
+}
+.tc-registration #pageContent ul.tc-cats > li > a:hover{ border-color: var(--accent); background: var(--accent-bg); transform: translateY(-1px); }
+.tc-registration #pageContent ul.tc-cats > li > a:hover::after{ color: var(--accent-hi); }
+.tc-registration #pageContent ul.tc-cats > li > a.tc-cat-current::before{ content: "\f07c" !important; }
+.tc-registration #pageContent .tc-crumbs{ flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; }
+
+/* Module list header: small grey labels instead of a tall stack */
+.tc-registration #pageContent tr.tc-reg-head > td, .tc-registration #pageContent tr.tc-reg-head > th{
+  color: var(--muted) !important; font-size: 11px !important; font-weight: 600 !important;
+  line-height: 1.35 !important; padding-top: 6px !important; padding-bottom: 6px !important;
+  text-transform: uppercase; letter-spacing: .03em;
+}
+.tc-registration #pageContent tr.tc-reg-head *{ font-size: 11px !important; color: var(--muted) !important; }
+
+/* Buttons */
+#pageContent a.tc-btn, #pageContent input.tc-btn{
+  display: inline-flex !important; align-items: center; gap: 6px;
+  padding: 6px 14px !important; border-radius: 8px !important;
+  font-weight: 600 !important; font-size: 12px !important; text-decoration: none !important;
+  white-space: nowrap; cursor: pointer;
+  transition: filter .15s, background-color .15s;
+}
+#pageContent a.tc-btn::before{ font-family: 'Font Awesome 5' !important; font-weight: 900 !important; font-size: 10px !important; margin: 0 !important; }
+#pageContent a.tc-btn-go, #pageContent input.tc-btn-go{ background: var(--success) !important; color: #0c1a13 !important; border: 1px solid var(--success) !important; }
+#pageContent a.tc-btn-go::before{ content: "\f067" !important; color: #0c1a13 !important; }
+#pageContent a.tc-btn-go:hover{ filter: brightness(1.1); }
+#pageContent a.tc-btn-stop, #pageContent input.tc-btn-stop{ background: transparent !important; color: var(--danger) !important; border: 1px solid var(--danger) !important; }
+#pageContent a.tc-btn-stop::before{ content: "\f00d" !important; color: var(--danger) !important; }
+#pageContent a.tc-btn-stop:hover{ background: rgba(208,100,100,.12) !important; }
+
+/* Course cards (module lists on the registration page) */
+.tc-registration #pageContent tr.tc-course-row > td{ padding-top: 12px !important; padding-bottom: 12px !important; vertical-align: middle !important; }
+.tc-registration #pageContent a.tc-course-link{ text-decoration: none !important; display: inline-block; }
+.tc-registration #pageContent a.tc-course-link::before{ content: none !important; }
+.tc-course{ display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.tc-code{
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace !important;
+  font-size: 11px !important; font-weight: 600 !important;
+  color: var(--accent-hi) !important; background: var(--accent-bg);
+  border: 1px solid #2c4a6b; border-radius: 6px; padding: 2px 7px;
+}
+.tc-title{ color: #fff !important; font-size: 14px !important; font-weight: 600 !important; }
+a.tc-course-link:hover .tc-title{ color: var(--accent-hi) !important; text-decoration: underline; }
+.tc-term{
+  font-size: 10px !important; font-weight: 600 !important; letter-spacing: .03em;
+  color: var(--muted) !important; border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px;
+}
+
+/* Parts of a module: indented under it with a connector */
+.tc-registration #pageContent tr.tc-subrow > td{ background-color: var(--surface) !important; padding-top: 8px !important; padding-bottom: 8px !important; }
+.tc-registration #pageContent tr.tc-subrow > td:first-child{ padding-left: 34px !important; position: relative; }
+.tc-registration #pageContent tr.tc-subrow > td:first-child::before{
+  content: ""; position: absolute; left: 16px; top: 0; height: 50%; width: 10px;
+  border-left: 1px solid var(--border); border-bottom: 1px solid var(--border); border-bottom-left-radius: 4px;
+}
+.tc-subrow .tc-title{ font-size: 12px !important; color: var(--text) !important; font-weight: 500 !important; }
+.tc-subrow .tc-code{ background: transparent; border-color: var(--border); color: var(--muted) !important; }
+
+/* Deadline */
+.tc-registration #pageContent td.tc-deadline{ white-space: nowrap; }
+.tc-registration #pageContent td.tc-deadline::before{
+  content: "\f073"; font-family: 'Font Awesome 5'; font-weight: 900; font-size: 10px;
+  color: var(--muted); margin-right: 6px;
+}
+.tc-due{
+  display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px;
+  font-size: 10px !important; font-weight: 600 !important; vertical-align: middle;
+}
+.tc-due-ok{ background: rgba(79,174,132,.14); color: var(--success) !important; }
+.tc-due-soon{ background: rgba(217,164,65,.16); color: #d9a441 !important; }
+.tc-due-closed{ background: rgba(255,255,255,.06); color: var(--muted) !important; }
+
+/* Main module rows (TUCaN uses a different row type than for course parts) */
+.tc-registration #pageContent tr.tc-course-row:not(.tc-subrow) > td{
+  background-color: #1b2534 !important;
+  border-top: 10px solid var(--bg) !important;
+}
+.tc-registration #pageContent tr.tc-course-row:not(.tc-subrow) > td:first-child{ border-left: 4px solid var(--accent) !important; padding-left: 12px !important; }
+.tc-registration #pageContent tr.tc-subrow > td{ border-top: 0 !important; }
+.tc-registration #pageContent tr.tc-subrow > td:first-child{ border-left: 4px solid #2c4a6b !important; }
+
+/* Seats */
+.tc-seats{ display: inline-block; margin-top: 3px; color: var(--muted) !important; font-size: 11px !important; }
+.tc-seats::before{ content: "\f0c0"; font-family: 'Font Awesome 5'; font-weight: 900; font-size: 9px; margin-right: 5px; }
+
+/* Registration steps */
+#pageContent a.tc-btn-next::before{ content: none !important; }
+#pageContent a.tc-btn-next::after{ content: "\f054"; font-family: 'Font Awesome 5'; font-weight: 900; font-size: 10px; color: #0c1a13; }
+#pageContent a.tc-btn-next, #pageContent input.tc-btn-next{ padding: 9px 20px !important; font-size: 13px !important; }
+#pageContent a.tc-btn-back, #pageContent input.tc-btn-back{ background: var(--surface-2) !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
+#pageContent a.tc-btn-back::before{ content: "\f053" !important; color: var(--muted) !important; }
+.tc-step-footer{ display: flex; justify-content: flex-end; margin: 18px 0 6px; }
+
+/* Summary card */
+.tc-registration #pageContent table.tc-kv{
+  border: 1px solid var(--border) !important; border-radius: 12px !important;
+  border-collapse: separate !important; border-spacing: 0 !important; overflow: hidden;
+  background: linear-gradient(135deg, #1b2738, var(--surface)) !important;
+  margin-bottom: 14px !important;
+}
+.tc-registration #pageContent tr.tc-kv-row > td{ background: transparent !important; border: 0 !important; padding: 9px 16px !important; }
+.tc-registration #pageContent tr.tc-kv-row + tr.tc-kv-row > td{ border-top: 1px solid rgba(255,255,255,.05) !important; }
+.tc-registration #pageContent td.tc-kv-label{
+  width: 140px; color: var(--muted) !important; font-size: 11px !important;
+  text-transform: uppercase; letter-spacing: .05em; font-weight: 600 !important;
+}
+.tc-registration #pageContent tr.tc-kv-name > td:last-child{ color: #fff !important; font-size: 16px !important; font-weight: 600 !important; }
+
+/* ===================== Exam registration ===================== */
+.tc-exams #pageContent tr.tc-exam-module > td{
+  background: #1b2534 !important;
+  border-top: 10px solid var(--bg) !important;
+  padding-top: 10px !important; padding-bottom: 10px !important;
+}
+.tc-exams #pageContent tr.tc-exam-module > td:first-child{ border-left: 4px solid var(--accent) !important; white-space: nowrap; width: 1%; }
+.tc-exams #pageContent td.tc-exam-title{ color: #fff !important; font-size: 14px !important; font-weight: 600 !important; }
+.tc-exams #pageContent tr.tc-exam-row > td{ background: var(--surface) !important; border-top: 0 !important; padding-top: 7px !important; padding-bottom: 7px !important; }
+.tc-exams #pageContent tr.tc-exam-row > td:first-child{ border-left: 4px solid #2c4a6b !important; }
+.tc-exams #pageContent tr.tc-exam-selected > td:first-child{ border-left-color: var(--success) !important; }
+.tc-exams #pageContent a.tc-exam-link{ color: var(--text) !important; text-decoration: none !important; font-weight: 500 !important; }
+.tc-exams #pageContent a.tc-exam-link::before{ content: "\f15c" !important; font-family: 'Font Awesome 5' !important; font-weight: 900 !important; font-size: 10px !important; color: var(--accent) !important; margin-right: 8px !important; }
+.tc-exams #pageContent a.tc-exam-link:hover{ color: var(--accent-hi) !important; }
+.tc-exams #pageContent td.tc-exam-date{ white-space: nowrap; color: var(--text) !important; }
+.tc-exams #pageContent td.tc-tbd{ color: var(--muted) !important; font-style: italic; }
+.tc-exams #pageContent tr.tc-exam-past > td{ opacity: .55; }
+.tc-badge{ display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px !important; font-weight: 600 !important; white-space: nowrap; }
+.tc-badge-ok{ background: rgba(79,174,132,.15); color: var(--success) !important; border: 1px solid rgba(79,174,132,.35); }
+
+/* ===================== Start page ===================== */
+.tc-home #pageContent .tc-hero{ margin: 0 0 18px; }
+.tc-home #pageContent .tc-hero h1{ font-size: 26px !important; margin: 0 0 4px !important; padding: 0 !important; border: 0 !important; color: #fff !important; }
+.tc-hero-date{ color: var(--muted) !important; font-size: 13px !important; }
+
+.tc-home-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 18px; }
+.tc-home-card{
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 16px; box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+.tc-home-card-head{ display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 14px !important; font-weight: 600 !important; color: #fff !important; }
+.tc-home-icon{
+  font-family: 'Font Awesome 5' !important; font-weight: 900 !important; font-size: 12px !important;
+  width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; background: var(--accent-bg); color: var(--accent-hi) !important;
+}
+.tc-home-card table, .tc-home-card div, .tc-home-card td, .tc-home-card th{ background: transparent !important; border: 0 !important; }
+.tc-home-card .tc-empty{ color: var(--muted) !important; font-style: italic; padding: 10px 0 !important; }
+.tc-home-card a.img, .tc-home-card a{ color: var(--accent) !important; }
+
+.tc-section-label{ color: var(--muted) !important; font-size: 11px !important; text-transform: uppercase; letter-spacing: .06em; font-weight: 600 !important; margin: 4px 0 8px; }
+.tc-quick{ display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+#pageContent a.tc-tile{
+  display: flex !important; align-items: center; gap: 10px;
+  padding: 12px 14px !important; border-radius: 10px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text) !important; font-weight: 600 !important; text-decoration: none !important;
+  transition: border-color .15s, background-color .15s, transform .15s;
+}
+#pageContent a.tc-tile::before{ content: none !important; }
+#pageContent a.tc-tile:hover{ border-color: var(--accent); background: var(--accent-bg); transform: translateY(-1px); color: #fff !important; }
+.tc-tile-icon{
+  font-family: 'Font Awesome 5' !important; font-weight: 900 !important; font-size: 12px !important;
+  color: var(--accent-hi) !important; width: 18px; text-align: center;
+}
+
+/* Logged-out header */
+.tc-guest{ color: var(--muted) !important; font-size: 12px !important; }
+.tc-guest::before{ content: "\f007"; font-family: 'Font Awesome 5'; font-weight: 900; font-size: 10px; margin-right: 7px; color: var(--muted); }
+#pageHead .tc-actions a.tc-login{ background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; }
+#pageHead .tc-actions a.tc-login.img::before{ content: "\f2f6" !important; color: #fff !important; }
+#pageHead .tc-actions a.tc-login:hover{ filter: brightness(1.1); background: var(--accent) !important; }
+
+/* Pages outside TUCaN's normal layout (logout confirmation etc.) */
+.tc-foreign button, .tc-foreign input[type="submit"], .tc-foreign input[type="button"], .tc-foreign .btn, .tc-foreign a.button{
+  background: var(--accent) !important; color: #fff !important;
+  border: 1px solid var(--accent) !important; border-radius: 8px !important;
+  padding: 8px 22px !important; font-size: 13px !important; font-weight: 600 !important;
+  cursor: pointer; box-shadow: none !important;
+}
+.tc-foreign button:hover, .tc-foreign input[type="submit"]:hover, .tc-foreign .btn:hover{ filter: brightness(1.1); }
+.tc-foreign p, .tc-foreign label, .tc-foreign li{ font-size: 14px !important; }
+.tc-foreign h1{ font-size: 26px !important; }
+.tc-foreign header, .tc-foreign nav, .tc-foreign .navbar{ border-bottom: 1px solid var(--border) !important; }
+
+/* ---- TUPlan Grade Reporter (other extension): its white popover/badge get our light
+   text from the global rule, so restyle them to match the dark theme. ---- */
+html body .tuplan-popover{
+  background: var(--surface-2) !important; border: 1px solid var(--border) !important;
+  border-radius: 10px !important; box-shadow: 0 10px 30px rgb(0 0 0 / 45%) !important;
+  padding: 12px 14px !important; font-family: "DM Sans", system-ui, sans-serif !important;
+}
+html body .tuplan-popover *{ font-family: inherit !important; }
+html body .tuplan-popover-title, html body .tuplan-stat-value, html body .tuplan-term-avg,
+html body .tuplan-term-name{ color: var(--text) !important; }
+html body .tuplan-popover-eyebrow, html body .tuplan-popover-subhead{ color: var(--accent-hi) !important; }
+html body .tuplan-stat-label, html body .tuplan-histogram-count{ color: var(--text) !important; opacity: .85; }
+html body .tuplan-stat-hint, html body .tuplan-histogram-label, html body .tuplan-term-n,
+html body .tuplan-popover-note{ color: var(--muted) !important; }
+html body .tuplan-histogram-label, html body .tuplan-histogram-count{ font-size: 9px !important; }
+html body .tuplan-stat-value{ font-size: 16px !important; font-weight: 600 !important; color: var(--accent-hi) !important; }
+html body .tuplan-popover-section{ border-top-color: var(--border) !important; }
+html body .tuplan-histogram-bar{ background: var(--accent) !important; border-radius: 2px 2px 0 0 !important; }
+html body .tuplan-histogram-bar[data-failing='true']{
+  background: var(--danger) !important;
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 30%) 0 2px, transparent 2px 4px) !important;
+}
+html body .tuplan-badge{
+  background: var(--accent-bg) !important; border: 1px solid #2f4a68 !important;
+  color: var(--accent-hi) !important; border-radius: 999px !important; padding: 1px 8px !important;
+  text-decoration: none !important; vertical-align: middle !important;
+}
+html body .tuplan-badge *{ color: inherit !important; text-decoration: none !important; }
+html body .tuplan-badge:hover{ background: #24384f !important; border-color: var(--accent) !important; }
+html body .tuplan-bar{
+  background: var(--surface) !important; border: 1px solid var(--border) !important;
+  border-left: 3px solid var(--accent) !important; border-radius: var(--radius) !important;
+}
+html body .tuplan-note{ color: var(--muted) !important; }
+html body .tuplan-button{ background: var(--accent) !important; color: #fff !important; border-radius: var(--radius) !important; }
+html body .tuplan-button:hover:not(:disabled){ background: var(--accent-hi) !important; }
+html body .tuplan-status[data-tone='ok']{ color: var(--success) !important; }
+html body .tuplan-status[data-tone='warn']{ color: #d6a65a !important; }
+html body .tuplan-status[data-tone='error']{ color: var(--danger) !important; }
+
+/* Month tiles: TUCaN's day boxes and their header strip have light borders. */
+.tc-month #pageContent .tbMonthDay, .tc-month #pageContent .tbMonthDay > div,
+.tc-month #pageContent .tbMonthDay .tbsubhead{ border: 0 !important; background: none !important; }
+.tc-month #pageContent a.apmntLink{ display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tc-month #pageContent a.apmntLink .tc-mtime{ color: var(--accent-hi) !important; font-weight: 600 !important; }
