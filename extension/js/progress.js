@@ -292,10 +292,6 @@
 
     var under = function(area, a){ for(; a; a = a.parent) if(a === area) return true; return false; };
     var pendingIn = function(area){ return pending.filter(function(p){ return under(area, p.area); }).reduce(function(s, p){ return s + (p.credits || 0); }, 0); };
-
-    // Overall card
-    var counted = root.counted || 0, target = isNaN(required) ? (root.min || 0) : required;
-    var inProg = pending.reduce(function(s, p){ return s + (p.credits || 0); }, 0);
     // What will actually count: each area passes up at most its remaining room (maximum − counted).
     function effective(area){
       var own = pending.filter(function(p){ return p.area === area; }).reduce(function(s, p){ return s + (p.credits || 0); }, 0);
@@ -303,97 +299,161 @@
       var cap = isNaN(area.max) ? Infinity : Math.max(0, area.max - (area.counted || 0));
       return Math.min(sum, cap);
     }
-    var willCount = Math.min(effective(root), Math.max(0, target - counted));
-    var short = areas.filter(function(a){ return a.sumRow && !a.children.length && !isNaN(a.min); }).map(function(a){
-      return {name: areaName(a), gap: a.min - (a.counted || 0) - effective(a)};
-    }).filter(function(x){ return x.gap > 0.05; });
-    var shortText = short.length ? 'Still short: ' + short.map(function(x){ return x.name + ' (' + fmt(x.gap) + ')'; }).join(', ') : 'Every area\'s minimum met';
-    summary.textContent = '';
-    var head = el('div', 'tc-progress-head');
-    head.appendChild(el('strong', null, 'Degree progress'));
-    head.appendChild(el('span', null, fmt(counted) + ' of ' + fmt(target) + ' credits counted'));
-    summary.appendChild(head);
-    summary.appendChild(bar(counted, willCount, target));
-    var legend = el('div', 'tc-legend');
-    [['tc-key-done', 'Counted (passed)'], ['tc-key-pending', 'In progress, counts if you pass'], ['tc-key-mark', 'Area minimum']].forEach(function(k){
-      var item = el('span'); item.appendChild(el('i', k[0])); item.appendChild(document.createTextNode(k[1])); legend.appendChild(item);
-    });
-    legend.appendChild(el('span', 'tc-legend-sep', '|'));
-    [['tc-ok', 'Minimum reached'], ['tc-soon', 'Enough if you pass'], ['tc-need', 'Still missing credits']].forEach(function(k){
-      legend.appendChild(el('span', 'tc-legend-text ' + k[0], k[1]));
-    });
-    summary.appendChild(legend);
-    var facts = el('div', 'tc-progress-facts');
-    [['Counted', fmt(counted) + ' CP'],
-     ['In progress', fmt(inProg) + ' CP', willCount < inProg ? fmt(willCount) + ' CP of it can count (area limits)' : 'all of it can count'],
-     ['Still needed', fmt(Math.max(0, target - counted)) + ' CP'],
-     ['If you pass everything', fmt(Math.max(0, target - counted - willCount)) + ' CP left', shortText]].forEach(function(f){
-      var d = el('div'); d.appendChild(el('span', null, f[0])); d.appendChild(el('strong', null, f[1]));
-      if(f[2]) d.appendChild(el('small', null, f[2]));
-      facts.appendChild(d);
-    });
-    summary.appendChild(facts);
-    var waiting = pending.filter(function(p){ return p.resultPending; });
-    if(waiting.length){
-      var cp = waiting.reduce(function(s, p){ return s + (p.credits || 0); }, 0);
-      summary.appendChild(el('p', 'tc-waiting', '⏳ ' + waiting.length + (waiting.length === 1 ? ' result' : ' results') + ' pending (' + fmt(cp) + ' CP): ' +
-        waiting.map(function(p){ return p.name + ' (' + p.resultPending + ')'; }).join(', ')));
-    }
-
-    // This semester / in progress list
-    if(pending.length){
-      var list = el('div', 'tc-pending');
-      list.appendChild(el('div', 'tc-pending-title', 'In progress — where the credits will count'));
-      var t = el('table', 'tc-pending-table');
-      var hr = el('tr'); ['Module', 'Credits', 'Counts towards', 'Status'].forEach(function(h){ hr.appendChild(el('th', null, h)); }); t.appendChild(hr);
-      // Same order as the record: by area (Foundations, Models and Methods, …), then this semester's first.
-      var order = function(p){ var i = areas.indexOf(p.area); return i < 0 ? 1e6 : i; };
-      pending.sort(function(a, b){ return order(a) - order(b) || (b.thisSemester ? 1 : 0) - (a.thisSemester ? 1 : 0) || a.code.localeCompare(b.code); });
-      pending.forEach(function(p){
-        var tr = el('tr');
-        // The code is a link starting with the module number: other TUCaN tools (e.g. TUPlan's
-        // grade badges) recognise links like that and can add their info next to it.
-        var chip = el('a', 'tc-code', p.code);
-        if(p.url) chip.href = p.url;
-        var name = el('td'); name.appendChild(chip); name.appendChild(document.createTextNode(' ' + (p.name || ''))); tr.appendChild(name);
-        tr.appendChild(el('td', 'tc-num', isNaN(p.credits) || p.credits == null ? '–' : fmt(p.credits) + ' CP'));
-        var where = p.area ? areaName(p.area) : ((map[p.code] || []).join(', ') || (p.resultPending ? 'Not on your record yet' : 'Not assigned yet'));
-        tr.appendChild(el('td', p.area ? null : 'tc-muted', where));
-        var last = extra.attempts[p.code];
-        var status = p.resultPending ? 'Result pending · ' + p.resultPending
-          : p.thisSemester ? (p.onRecord ? 'This semester · ' + p.status + (last && last.result !== 'graded' ? ' (last attempt: ' + last.result + ')' : '') : 'This semester · registered')
-          : p.status + (last && last.result !== 'graded' ? ' · last attempt: ' + last.result + (last.date ? ' (' + last.date + ')' : '') : '');
-        tr.appendChild(el('td', p.resultPending ? 'tc-result-pending' : 'tc-muted', status));
-        t.appendChild(tr);
-      });
-      list.appendChild(t);
-      list.appendChild(el('p', 'tc-pending-note', 'Credits count once you pass. An area only counts up to its maximum. "Counts towards" for new modules is where TUCaN offers them this semester; TUCaN assigns the area when you register for the exam.'));
-      summary.appendChild(list);
-    }
-
-    // Per area: a line under each area with rules
-    table.querySelectorAll('tr.tc-area-progress').forEach(function(r){ r.remove(); });
-    areas.forEach(function(a){
-      if(!a.sumRow || (isNaN(a.min) && isNaN(a.max)) || a === root) return;
-      var min = isNaN(a.min) ? 0 : a.min, max = isNaN(a.max) ? Infinity : a.max, done = a.counted || 0, wip = pendingIn(a);
-      var tr = el('tr', 'tc-area-progress'), td = el('td');
-      td.colSpan = col.width;
-      var msg, cls, room = max === Infinity ? Infinity : Math.max(0, max - done);
-      var counts = Math.min(wip, room);
-      var wipText = wip ? fmt(wip) + ' CP in progress' + (wip > room ? ' (only ' + fmt(room) + ' will count)' : '') : '';
-      if(max !== Infinity && done >= max){ msg = 'Full: the maximum of ' + fmt(max) + ' CP is reached, more modules here won\'t count'; cls = 'tc-ok'; }
+    // One area's state, shared by the cards and the lines in the record table.
+    function areaState(a){
+      var min = isNaN(a.min) ? 0 : a.min, max = isNaN(a.max) ? Infinity : a.max, done = a.counted || 0;
+      var wip = pendingIn(a), counts = effective(a), room = max === Infinity ? Infinity : Math.max(0, max - done);
+      var wipText = wip ? fmt(wip) + ' CP in progress' + (wip > counts + 0.05 ? ' (only ' + fmt(counts) + ' will count)' : '') : '';
+      var msg, cls;
+      if(max !== Infinity && done >= max){ msg = 'Full: maximum of ' + fmt(max) + ' CP reached'; cls = 'tc-ok'; }
       else if(done >= min){ msg = [min ? 'Minimum reached' : 'No minimum', wipText || (room !== Infinity ? 'up to ' + fmt(room) + ' more CP can count' : '')].filter(Boolean).join(' · '); cls = 'tc-ok'; }
       else{
         var need = min - done;
-        msg = fmt(need) + ' more CP needed' + (wip ? ' · ' + wipText + (counts >= need ? ', enough if you pass' : ', ' + fmt(need - counts) + ' still missing') : '');
-        cls = counts >= need ? 'tc-soon' : 'tc-need';
+        msg = fmt(need) + ' more CP needed' + (wip ? ' · ' + wipText + (counts >= need - 0.05 ? ', enough if you pass' : ', ' + fmt(need - counts) + ' still missing') : '');
+        cls = counts >= need - 0.05 ? 'tc-soon' : 'tc-need';
       }
-      var line = el('div', 'tc-area-line ' + cls);
-      line.appendChild(bar(done, counts, min || (max === Infinity ? 0 : max)));
-      line.appendChild(el('span', 'tc-area-count', fmt(done) + (min ? ' / ' + fmt(min) : '') + ' CP'));
-      line.appendChild(el('span', 'tc-area-msg', msg));
-      line.title = fmt(done) + ' CP counted' + (wip ? ', ' + fmt(counts) + ' CP in progress that can count' : '') +
-        (min ? ', minimum ' + fmt(min) + ' CP' : '') + (max !== Infinity ? ', maximum ' + fmt(max) + ' CP' : '');
+      return {min: min, max: max, done: done, wip: wip, counts: counts, msg: msg, cls: cls,
+              gap: Math.max(0, min - done - counts), over: Math.max(0, wip - counts)};
+    }
+
+    var counted = root.counted || 0, target = isNaN(required) ? (root.min || 0) : required;
+    var willCount = Math.min(effective(root), Math.max(0, target - counted));
+    var placed = pending.filter(function(p){ return p.area; });
+    var inProg = placed.reduce(function(s, p){ return s + (p.credits || 0); }, 0);
+    var waiting = pending.filter(function(p){ return p.resultPending; });
+    var leaves = areas.filter(function(a){ return a.sumRow && !a.children.length && (!isNaN(a.min) || !isNaN(a.max)); });
+    var gpaRow = Array.prototype.find.call(document.querySelectorAll('#pageContent tr'), function(tr){ return tr.children.length >= 2 && /^(Complete GPA|Gesamt\w*|GPA)/i.test(text(tr.children[0])); });
+    var gpa = gpaRow ? text(gpaRow.children[1]) : '';
+    var lastOf = function(p){ var l = extra.attempts[p.code]; return l && l.result !== 'graded' ? l : null; };
+    summary.textContent = '';
+
+    // ---- Top: ring + key numbers ----
+    var top = el('div', 'tc-prog-top');
+    var R = 52, C = 2 * Math.PI * R, ring = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    ring.setAttribute('viewBox', '0 0 130 130'); ring.setAttribute('class', 'tc-ring');
+    function arc(cls, from, len){
+      var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', 65); c.setAttribute('cy', 65); c.setAttribute('r', R); c.setAttribute('class', cls);
+      c.setAttribute('stroke-dasharray', Math.max(0, len) * C + ' ' + C);
+      c.setAttribute('transform', 'rotate(' + (from * 360) + ' 65 65)');
+      ring.appendChild(c);
+    }
+    arc('tc-ring-bg', 0, 1);
+    arc('tc-ring-done', 0, Math.min(1, counted / target));
+    arc('tc-ring-wip', Math.min(1, counted / target), Math.min(1 - counted / target, willCount / target));
+    var ringBox = el('div', 'tc-ring-box'); ringBox.appendChild(ring);
+    var mid = el('div', 'tc-ring-text');
+    mid.appendChild(el('strong', null, fmt(counted).replace(/,0$/, '')));
+    mid.appendChild(el('span', null, 'of ' + fmt(target).replace(/,0$/, '') + ' CP'));
+    ringBox.appendChild(mid);
+    top.appendChild(ringBox);
+
+    var stats = el('div', 'tc-prog-stats');
+    function stat(label, value, hint, cls){
+      var d = el('div', 'tc-stat' + (cls ? ' ' + cls : ''));
+      d.appendChild(el('span', null, label)); d.appendChild(el('strong', null, value)); if(hint) d.appendChild(el('small', null, hint));
+      stats.appendChild(d);
+    }
+    stat('Counted', fmt(counted) + ' CP', Math.round(counted / target * 100) + ' % of your degree', 'tc-stat-done');
+    stat('This semester', '+' + fmt(willCount) + ' CP', willCount < inProg - 0.05 ? 'can count, of ' + fmt(inProg) + ' CP in progress' : 'in progress, if you pass', 'tc-stat-wip');
+    stat('Left after that', fmt(Math.max(0, target - counted - willCount)) + ' CP', 'to plan for next semesters');
+    if(gpa) stat('GPA', gpa, 'complete GPA on this record');
+    if(waiting.length) stat('Results pending', String(waiting.length), fmt(waiting.reduce(function(s, p){ return s + (p.credits || 0); }, 0)) + ' CP waiting for a grade', 'tc-stat-wait');
+    top.appendChild(stats);
+    summary.appendChild(top);
+
+    // ---- What's left to do ----
+    var todo = [];
+    leaves.forEach(function(a){
+      var st = areaState(a);
+      if(st.gap > 0.05 && /thesis|arbeit/i.test(areaName(a))) todo.push(['plan', areaName(a) + ': ' + fmt(st.gap) + ' CP', 'register it in TUCaN when you start; usually in the last semester']);
+      else if(st.gap > 0.05) todo.push(['need', areaName(a) + ': ' + fmt(st.gap) + ' CP short', st.wip ? 'even if you pass everything in progress there' : 'nothing in progress here yet — pick a module for it']);
+      if(st.over > 0.05) todo.push(['info', areaName(a) + ': ' + fmt(st.over) + ' CP won\'t count', 'the area counts at most ' + fmt(st.max) + ' CP']);
+    });
+    var names = function(list){ return list.map(function(p){ return p.name; }).join(', '); };
+    var failed = pending.filter(function(p){ var l = lastOf(p); return l && l.result === 'failed' && !p.resultPending; });
+    var missed = pending.filter(function(p){ var l = lastOf(p); return l && /sick|absent|excused|withdrawn/.test(l.result) && !p.resultPending; });
+    if(failed.length) todo.push(['retake', 'Retake: ' + names(failed), 'last attempt failed — register for the next exam date']);
+    if(missed.length) todo.push(['retry', 'Register again: ' + names(missed), 'last attempt missed (sick note or absent)']);
+    if(waiting.length) todo.push(['wait', 'Waiting for results: ' + names(waiting), waiting.map(function(p){ return p.resultPending; }).filter(function(v, i, a){ return a.indexOf(v) === i; }).join(', ')]);
+    if(!todo.some(function(t){ return t[0] === 'need'; })) todo.unshift(['ok', 'On track', 'every area reaches its minimum if you pass what you\'re taking']);
+    var todoBox = el('div', 'tc-todo');
+    todoBox.appendChild(el('div', 'tc-section-title', 'What\'s left to do'));
+    var ICON = {need: '!', info: 'i', retake: '↻', retry: '↺', wait: '⏳', ok: '✓', plan: '🎓'};
+    todo.forEach(function(t){
+      var row = el('div', 'tc-todo-item tc-todo-' + t[0]);
+      row.appendChild(el('span', 'tc-todo-icon', ICON[t[0]]));
+      var body = el('div'); body.appendChild(el('strong', null, t[1])); if(t[2]) body.appendChild(el('span', null, t[2]));
+      row.appendChild(body); todoBox.appendChild(row);
+    });
+    summary.appendChild(todoBox);
+
+    // ---- Area cards ----
+    var order = function(p){ var i = areas.indexOf(p.area); return i < 0 ? 1e6 : i; };
+    pending.sort(function(a, b){ return order(a) - order(b) || (b.thisSemester ? 1 : 0) - (a.thisSemester ? 1 : 0) || a.code.localeCompare(b.code); });
+    function moduleLine(p){
+      var li = el('li');
+      // The code is a link starting with the module number: other TUCaN tools (e.g. TUPlan's
+      // grade badges) recognise links like that and can add their info next to it.
+      var chip = el('a', 'tc-code', p.code);
+      if(p.url) chip.href = p.url;
+      li.appendChild(chip);
+      li.appendChild(el('span', 'tc-mod-name', p.name || ''));
+      li.appendChild(el('span', 'tc-mod-cp', isNaN(p.credits) || p.credits == null ? '–' : fmt(p.credits) + ' CP'));
+      var l = lastOf(p), tag, cls;
+      if(p.resultPending){ tag = 'result pending · ' + p.resultPending; cls = 'tc-tag-wait'; }
+      else if(l && l.result === 'failed'){ tag = (p.thisSemester ? 'retaking · ' : 'retake · ') + 'failed ' + l.date; cls = 'tc-tag-bad'; }
+      else if(l){ tag = (p.thisSemester ? 'this semester · ' : '') + l.result + (l.date ? ' ' + l.date : ''); cls = 'tc-tag-warn'; }
+      else if(p.thisSemester){ tag = 'this semester'; cls = 'tc-tag-now'; }
+      else{ tag = p.status; cls = 'tc-tag-muted'; }
+      li.appendChild(el('span', 'tc-tag ' + cls, tag));
+      return li;
+    }
+    var grid = el('div', 'tc-area-grid');
+    leaves.forEach(function(a){
+      var st = areaState(a), card = el('div', 'tc-area-card ' + st.cls);
+      var head = el('div', 'tc-area-head');
+      head.appendChild(el('strong', null, areaName(a)));
+      head.appendChild(el('span', 'tc-area-nums', fmt(st.done) + (st.min ? ' / ' + fmt(st.min) : '') + ' CP' + (st.max !== Infinity && st.max !== st.min ? ' · max ' + fmt(st.max) : '')));
+      card.appendChild(head);
+      card.appendChild(bar(st.done, Math.min(st.counts, Math.max(0, (st.min || st.max) - st.done)), st.min || (st.max === Infinity ? 0 : st.max)));
+      card.appendChild(el('div', 'tc-area-msg', st.msg));
+      var mine = pending.filter(function(p){ return p.area === a; });
+      if(mine.length){ var ul = el('ul', 'tc-mods'); mine.forEach(function(p){ ul.appendChild(moduleLine(p)); }); card.appendChild(ul); }
+      grid.appendChild(card);
+    });
+    var loose = pending.filter(function(p){ return !p.area; });
+    if(loose.length){
+      var card = el('div', 'tc-area-card tc-loose');
+      var head = el('div', 'tc-area-head'); head.appendChild(el('strong', null, 'Not on your record yet')); card.appendChild(head);
+      card.appendChild(el('div', 'tc-area-msg', 'TUCaN adds these to an area once a grade is entered or you register for the exam.'));
+      var ul = el('ul', 'tc-mods'); loose.forEach(function(p){ ul.appendChild(moduleLine(p)); }); card.appendChild(ul);
+      grid.appendChild(card);
+    }
+    summary.appendChild(el('div', 'tc-section-title', 'Areas'));
+    summary.appendChild(grid);
+
+    var legend = el('div', 'tc-legend');
+    [['tc-key-done', 'Counted'], ['tc-key-pending', 'In progress (counts if you pass)'], ['tc-key-mark', 'Minimum']].forEach(function(k){
+      var item = el('span'); item.appendChild(el('i', k[0])); item.appendChild(document.createTextNode(k[1])); legend.appendChild(item);
+    });
+    [['tc-ok', 'reached'], ['tc-soon', 'enough if you pass'], ['tc-need', 'still missing']].forEach(function(k){ legend.appendChild(el('span', 'tc-legend-text ' + k[0], k[1])); });
+    summary.appendChild(legend);
+    summary.appendChild(el('p', 'tc-pending-note', 'Credits count once you pass. An area only counts up to its maximum. For modules not on your record yet, the area is where TUCaN offers them this semester; TUCaN assigns it when you register for the exam.'));
+
+    // ---- A line under each area in the record table ----
+    table.querySelectorAll('tr.tc-area-progress').forEach(function(r){ r.remove(); });
+    areas.forEach(function(a){
+      if(!a.sumRow || (isNaN(a.min) && isNaN(a.max)) || a === root) return;
+      var st = areaState(a);
+      var tr = el('tr', 'tc-area-progress'), td = el('td');
+      td.colSpan = col.width;
+      var line = el('div', 'tc-area-line ' + st.cls);
+      line.appendChild(bar(st.done, Math.min(st.counts, Math.max(0, (st.min || st.max) - st.done)), st.min || (st.max === Infinity ? 0 : st.max)));
+      line.appendChild(el('span', 'tc-area-count', fmt(st.done) + (st.min ? ' / ' + fmt(st.min) : '') + ' CP'));
+      line.appendChild(el('span', 'tc-area-msg', st.msg));
+      line.title = fmt(st.done) + ' CP counted' + (st.wip ? ', ' + fmt(st.counts) + ' CP in progress that can count' : '') +
+        (st.min ? ', minimum ' + fmt(st.min) + ' CP' : '') + (st.max !== Infinity ? ', maximum ' + fmt(st.max) + ' CP' : '');
       td.appendChild(line); tr.appendChild(td);
       var after = a.ruleRow || a.sumRow;
       after.parentNode.insertBefore(tr, after.nextSibling);

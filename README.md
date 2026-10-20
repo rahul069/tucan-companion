@@ -115,19 +115,18 @@ Each exam shows its module code, the full name and date. **Unregister** is shown
 
 At the top of your performance record:
 
-**Colours:** in the bars, 🟩 green = credits counted, striped 🟦 blue = in progress (counts if you pass), and the thin white line = the area's minimum. In the text, green means the minimum is reached, blue means it's enough if you pass, and amber means credits are still missing even then. A legend is shown under the main bar, and hovering an area's line shows its numbers.
+- **Overview:** a ring with credits counted (e.g. *53 of 120*), what this semester can add, what's left after that, your GPA, and the number of pending results.
+- **What's left to do:** concrete next steps, worked out from your record:
+  - *Foundations of AI: 1,0 CP short*, even if you pass everything in progress there
+  - *AI Domains and Applications: 3,0 CP short*, with nothing in progress yet, so pick a module for it
+  - *Languages: 3,0 CP won't count*, because the area counts at most 18 CP
+  - *Retake: …* (last attempt failed) and *Register again: …* (sick note or absent)
+  - *Waiting for results: …* (grade still *not set yet*)
+  - *Master's Thesis: 30 CP*
+- **Area cards:** one card per area, in the record's order. Each shows a bar, *counted / minimum · max*, a one-line status, and its modules with credits and a tag: *this semester*, *retake · failed 26.08.2026*, *sick note …* or *result pending · SoSe 2026*. With TUPlan installed, each module also shows its ⌀ grade average.
+- **Under every area in the record:** the same bar and status line, e.g. *7,0 more CP needed · 6,0 CP in progress, 1,0 still missing*.
 
-- **Overall:** credits counted vs. required (e.g. *53 of 120*), what's in progress and how much of it can still count, and what would be left if you pass everything.
-- **Still short:** areas that won't reach their minimum even if you pass all current modules, e.g. *AI Domains and Applications (3,0)*. Plan your next semester with these.
-- **In progress, where the credits will count:** every module you're registered for this semester, plus open or incomplete ones, with its credits and the area it counts towards.
-- **Under every area** of the record: a bar and a short line, such as
-  - *7,0 more CP needed · 6,0 CP in progress, 1,0 still missing*
-  - *12,0 more CP needed · 18,0 CP in progress, enough if you pass*
-  - *No minimum · 9,0 CP in progress (only 6,0 will count)*, when an area would go over its maximum
-- **Next to open modules:** their credits, e.g. *in progress · 6,0 CP*.
-- **Results pending:** modules from past semesters whose grade is still *not set yet* (from *Module Results*), e.g. *⏳ 2 results pending (12,0 CP)*.
-- **Why a module is open:** the latest exam attempt from *Examination Results*, e.g. *incomplete · last attempt: sick note (28.07.2026)*.
-- **Works with [TUPlan](https://www.tuplan.courses):** if you also have the *TUPlan Grade Reporter* extension, its crowd-sourced grade average (e.g. *⌀ 2.19*) appears next to each module in the list, so you can see how hard a module tends to be. TUCaN Companion doesn't contact TUPlan itself; the badges come from TUPlan's own extension.
+**Colours:** in the bars, 🟩 green = counted, striped 🟦 blue = in progress (counts if you pass), and the thin white line = the area's minimum. Cards and text are green when the minimum is reached, blue when it's enough if you pass, and amber when credits are still missing.
 
 How it works: the credit rules come from the record itself. Credits of open modules come from *My Modules*, this semester's modules from *My Current Registrations*, pending results from *Module Results* and attempts from *Examination Results*. For new modules that aren't on your record yet, the extension checks where TUCaN offers them in *Registration*. Your browser reads these TUCaN pages in the background with your session; no other site is contacted. Results are cached in your browser for 6–12 hours (the area list for a week).
 
