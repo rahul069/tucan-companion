@@ -87,7 +87,7 @@
   var root = areas[0];
 
   // ---------- 2. Extra data from TUCaN (cached) ----------
-  var CACHE_KEY = 'tc-progress-v1';
+  var CACHE_KEY = 'tc-progress-v2';
   function load(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; } catch(e){ return {}; } }
   function save(c){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify(c)); } catch(e){} }
   var cache = load();
@@ -114,7 +114,8 @@
       var link = Array.prototype.find.call(tr.querySelectorAll('a'), function(a){ return text(a) && !CODE.test(text(a)) && !/^(Cancel|Details|Abmelden)$/i.test(text(a)); });
       var cp = NaN;
       for(var j = cells.length - 1; j > i; j--){ if(/^\d+,\d$/.test(cells[j])){ cp = num(cells[j]); break; } }
-      out.push({code: code, name: link ? text(link) : cells[i].replace(CODE, '').trim(), credits: cp});
+      out.push({code: code, name: link ? text(link) : cells[i].replace(CODE, '').trim(), credits: cp,
+                url: link && link.getAttribute('href') ? new URL(link.getAttribute('href'), location.href).href : ''});
     });
     return out;
   }
@@ -214,7 +215,7 @@
     modules.forEach(function(m){
       if(m.status === 'passed') return;
       var cp = !isNaN(m.credits) && m.credits > 0 ? m.credits : (credits[m.code] || {}).credits;
-      pending.push({code: m.code, name: text(m.nameEl), credits: cp, area: m.area, onRecord: true, status: m.status});
+      pending.push({code: m.code, name: text(m.nameEl), credits: cp, area: m.area, onRecord: true, status: m.status, url: (credits[m.code] || {}).url});
     });
     current.forEach(function(c){
       if(onRecord[c.code] && onRecord[c.code].status === 'passed') return;
@@ -222,7 +223,7 @@
         pending.forEach(function(p){ if(p.code === c.code){ p.thisSemester = true; if(isNaN(p.credits)) p.credits = c.credits; } });
         return;
       }
-      pending.push({code: c.code, name: (credits[c.code] || c).name, credits: c.credits, area: findArea(map[c.code], c.code), onRecord: false, thisSemester: true});
+      pending.push({code: c.code, name: (credits[c.code] || c).name, credits: c.credits, area: findArea(map[c.code], c.code), onRecord: false, thisSemester: true, url: (credits[c.code] || c).url});
     });
 
     var under = function(area, a){ for(; a; a = a.parent) if(a === area) return true; return false; };
@@ -271,7 +272,11 @@
       pending.sort(function(a, b){ return order(a) - order(b) || (b.thisSemester ? 1 : 0) - (a.thisSemester ? 1 : 0) || a.code.localeCompare(b.code); });
       pending.forEach(function(p){
         var tr = el('tr');
-        var name = el('td'); name.appendChild(el('span', 'tc-code', p.code)); name.appendChild(document.createTextNode(' ' + (p.name || ''))); tr.appendChild(name);
+        // The code is a link starting with the module number: other TUCaN tools (e.g. TUPlan's
+        // grade badges) recognise links like that and can add their info next to it.
+        var chip = el('a', 'tc-code', p.code);
+        if(p.url) chip.href = p.url;
+        var name = el('td'); name.appendChild(chip); name.appendChild(document.createTextNode(' ' + (p.name || ''))); tr.appendChild(name);
         tr.appendChild(el('td', 'tc-num', isNaN(p.credits) || p.credits == null ? '–' : fmt(p.credits) + ' CP'));
         var where = p.area ? areaName(p.area) : ((map[p.code] || []).join(', ') || 'Not assigned yet');
         tr.appendChild(el('td', p.area ? null : 'tc-muted', where));
@@ -318,15 +323,25 @@
     });
   }
 
-  render({}, [], {});
-  summary.appendChild(el('p', 'tc-progress-loading', 'Loading credits of your current modules from TUCaN…'));
+  // Draw straight away from the last saved data (so the list is there when other tools scan
+  // the page), then redraw only if TUCaN's data turned out different.
+  var shown = null;
+  function show(credits, current, map){
+    var sig = JSON.stringify([credits, current, map]);
+    if(sig === shown) return;
+    shown = sig;
+    render(credits, current, map);
+  }
+  var hasCache = cache.modules && cache.current;
+  show(hasCache ? cache.modules.data : {}, hasCache ? cache.current.data : [], cache.areas ? cache.areas.data : {});
+  if(!hasCache) summary.appendChild(el('p', 'tc-progress-loading', 'Loading credits of your current modules from TUCaN…'));
   (async function(){
     try{
       var credits = await allModules();
       var current = await currentModules();
-      render(credits, current, cache.areas ? cache.areas.data : {});
       var unknown = current.some(function(c){ return !modules.some(function(m){ return m.code === c.code; }) && !/^41-/.test(c.code); });
-      if(unknown){ var map = await areaMap(); render(credits, current, map); }
+      var map = unknown ? await areaMap() : (cache.areas ? cache.areas.data : {});
+      show(credits, current, map);
     } catch(e){
       var n = summary.querySelector('.tc-progress-loading');
       if(n) n.textContent = 'Couldn\'t load your current modules from TUCaN (' + e.message + ').';

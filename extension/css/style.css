@@ -894,3 +894,6 @@ html body .tuplan-status[data-tone='error']{ color: var(--danger) !important; }
 .tc-area-line.tc-need .tc-area-msg{ color: var(--warning) !important; }
 .tc-wip{ display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px; background: var(--accent-bg) !important; color: var(--accent-hi) !important; font-size: 11px !important; font-weight: 600 !important; }
 .tc-progress-facts small{ color: var(--muted) !important; font-size: 11px !important; line-height: 1.35; }
+#pageContent a.tc-code{ text-decoration: none !important; }
+#pageContent a.tc-code:hover{ background: #24384f !important; }
+.tc-pending-table .tuplan-badge{ margin-left: 2px !important; margin-right: 6px !important; }

@@ -123,6 +123,7 @@ At the top of your performance record:
   - *12,0 more CP needed · 18,0 CP in progress, enough if you pass*
   - *No minimum · 9,0 CP in progress (only 6,0 will count)*, when an area would go over its maximum
 - **Next to open modules:** their credits, e.g. *in progress · 6,0 CP*.
+- **Works with [TUPlan](https://www.tuplan.courses):** if you also have the *TUPlan Grade Reporter* extension, its crowd-sourced grade average (e.g. *⌀ 2.19*) appears next to each module in the list, so you can see how hard a module tends to be. TUCaN Companion doesn't contact TUPlan itself; the badges come from TUPlan's own extension.
 
 How it works: the credit rules come from the record itself. Credits of open modules come from *My Modules*, and this semester's modules from *My Current Registrations*. For new modules that aren't on your record yet, the extension checks where TUCaN offers them in *Registration*. Your browser reads these TUCaN pages in the background with your session; no other site is contacted. Results are cached in your browser for 6–12 hours (the area list for a week).
 
