@@ -58,7 +58,11 @@
   var actions = el('div', 'tc-actions');
   document.querySelectorAll('#pageHeadSwitchLang a, a#logIn_btn').forEach(function(a){
     if(a.parentNode === actions) return;
-    if(/^(Log in|Login|Anmelden)$/i.test(a.textContent.trim())) a.classList.add('tc-login');
+    if(a.id === 'logIn_btn' || /^(Log in|Login|Anmelden)$/i.test(a.textContent.trim())){
+      a.classList.add('tc-login');
+      // Chrome's page translation turns "Anmelden" into "Register"; label it ourselves.
+      a.textContent = document.documentElement.lang === 'de' || document.querySelector('.img_LangEnglish') ? 'Anmelden' : 'Log in';
+    }
     actions.appendChild(a);
   });
   if(login) sub.appendChild(login);
@@ -67,6 +71,9 @@
 
   bar.appendChild(main);
   bar.appendChild(sub);
+  // Names and buttons in our bar are already right; keep page translators away.
+  bar.setAttribute('translate', 'no');
+  bar.classList.add('notranslate');
   head.insertBefore(bar, head.firstChild);
   document.documentElement.classList.add('tc-header-on');
 

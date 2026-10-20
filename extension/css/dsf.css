@@ -1,0 +1,41 @@
+/* TUCaN's identity server (dsf.tucan.tu-darmstadt.de): logout and applicant login pages. */
+
+:root{
+  --bg: #12161c; --surface: #181d24; --surface-2: #1e242c; --border: #2f3742;
+  --text: #e4e7eb; --muted: #98a2ae; --accent: #5a9ad6; --accent-hi: #82b4e4;
+}
+@font-face{ font-family: 'DM Sans'; src: url('chrome-extension://__MSG_@@extension_id__/fonts/DMSans-Regular.ttf'); }
+
+html, body{
+  background: radial-gradient(900px 260px at 18% -40px, rgba(90,154,214,.16), transparent 70%) no-repeat, var(--bg) !important;
+  color: var(--text) !important;
+  font-family: 'DM Sans', system-ui, sans-serif !important;
+}
+body *{ font-family: inherit !important; }
+p, label, span, li, td, div{ color: var(--text) !important; }
+h1, h2, h3, .page-header, .page-header *{ color: var(--text) !important; border-color: var(--border) !important; font-weight: 600 !important; }
+a{ color: var(--accent) !important; }
+a:hover{ color: var(--accent-hi) !important; }
+
+.navbar, .navbar-inverse{ background: transparent !important; border: 0 !important; }
+.panel, .panel-default, .panel-body, .panel-heading{
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  border-radius: 10px !important;
+  color: var(--text) !important;
+}
+.panel-heading{ border-bottom: 1px solid var(--border) !important; border-radius: 10px 10px 0 0 !important; }
+.form-control{
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+.form-control:focus{ border-color: var(--accent) !important; box-shadow: 0 0 0 2px rgba(90,154,214,.25) !important; }
+.btn{ border-radius: 6px !important; font-weight: 600 !important; }
+.btn-primary{ background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; }
+.btn-primary:hover{ background: var(--accent-hi) !important; }
+.btn-default{ background: var(--surface-2) !important; border-color: var(--border) !important; color: var(--text) !important; }
+.btn-default:hover{ border-color: var(--accent) !important; }
+.loading-modal-background{ background: rgba(0,0,0,.6) !important; }

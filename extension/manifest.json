@@ -11,7 +11,10 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
-  "permissions": ["storage", "clipboardWrite"],
+  "permissions": [
+    "storage",
+    "clipboardWrite"
+  ],
   "action": {
     "default_title": "TUCaN Companion",
     "default_popup": "popup.html",
@@ -23,13 +26,21 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.tucan.tu-darmstadt.de/*"],
-      "css": ["css/style.css"],
-      "js": ["lib/jquery.min.js"],
+      "matches": [
+        "https://www.tucan.tu-darmstadt.de/*"
+      ],
+      "css": [
+        "css/style.css"
+      ],
+      "js": [
+        "lib/jquery.min.js"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["https://www.tucan.tu-darmstadt.de/*"],
+      "matches": [
+        "https://www.tucan.tu-darmstadt.de/*"
+      ],
       "js": [
         "js/header.js",
         "js/results.js",
@@ -44,16 +55,36 @@
       "run_at": "document_end"
     },
     {
-      "matches": ["https://login.tu-darmstadt.de/*"],
-      "js": ["js/totp.js", "js/otp.js"],
+      "matches": [
+        "https://dsf.tucan.tu-darmstadt.de/*"
+      ],
+      "css": [
+        "css/dsf.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://login.tu-darmstadt.de/*"
+      ],
+      "js": [
+        "js/totp.js",
+        "js/otp.js"
+      ],
       "run_at": "document_idle",
       "all_frames": true
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["fonts/DMSans-Regular.ttf", "fonts/fa-solid-900.woff2"],
-      "matches": ["https://www.tucan.tu-darmstadt.de/*"]
+      "resources": [
+        "fonts/DMSans-Regular.ttf",
+        "fonts/fa-solid-900.woff2"
+      ],
+      "matches": [
+        "https://www.tucan.tu-darmstadt.de/*",
+        "https://dsf.tucan.tu-darmstadt.de/*"
+      ]
     }
   ]
 }

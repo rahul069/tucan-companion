@@ -170,7 +170,7 @@ TU's login asks for a 6-digit code from an authenticator app. TUCaN Companion ca
 ## Privacy and security
 
 - **No data leaves your computer.** The extension makes **no network requests** of its own: no analytics, no servers, no tracking. It only changes how TUCaN pages look, locally.
-- **It only runs on** `www.tucan.tu-darmstadt.de` (theme) and `login.tu-darmstadt.de` (code filling).
+- **It only runs on** `www.tucan.tu-darmstadt.de` (theme), `dsf.tucan.tu-darmstadt.de` (logout page styling) and `login.tu-darmstadt.de` (code filling).
 - **Permissions:** `storage`, to remember your view choice and your sign-in key (if you add one), and `clipboardWrite`, so clicking the code copies it.
 - **Open source:** everything is in this repo. Read it, or build it yourself.
 

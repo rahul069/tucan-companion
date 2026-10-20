@@ -32,6 +32,8 @@
   font-size: 12px !important;
 }
 html, body{ background-color: var(--bg) !important; }
+/* Chrome's page translation wraps text in <font> tags; let them inherit the size. */
+html body font{ font-size: inherit !important; color: inherit !important; }
 body{
   line-height: 1.45;
   background: radial-gradient(900px 260px at 18% -40px, rgba(90,154,214,.16), transparent 70%) no-repeat, var(--bg) !important;

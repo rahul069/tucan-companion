@@ -17,7 +17,7 @@ Using Chrome's local extension storage (`chrome.storage.local` and the page's `l
 
 ## Where it runs
 
-Only on `https://www.tucan.tu-darmstadt.de/*` (theme, translations) and `https://login.tu-darmstadt.de/*` (filling the one-time code). The page content it reads there (e.g. your schedule) is processed locally to change the layout and isn't stored or sent anywhere.
+Only on `https://www.tucan.tu-darmstadt.de/*` (theme, translations), `https://dsf.tucan.tu-darmstadt.de/*` (dark theme for TUCaN's logout and applicant login pages) and `https://login.tu-darmstadt.de/*` (filling the one-time code). The page content it reads there (e.g. your schedule) is processed locally to change the layout and isn't stored or sent anywhere.
 
 ## Permissions
 

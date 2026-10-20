@@ -30,6 +30,7 @@ Unofficial student project, not affiliated with TU Darmstadt. Open source: https
 - `storage`: saves the user's view preferences and, optionally, the TOTP key they enter, locally.
 - `clipboardWrite`: copies the one-time code when the user clicks it in the popup.
 - Host access `www.tucan.tu-darmstadt.de`: restyles and translates TUCaN pages.
+- Host access `dsf.tucan.tu-darmstadt.de`: dark styling for TUCaN's logout/login pages (CSS only).
 - Host access `login.tu-darmstadt.de`: fills the one-time code on the TU login page.
 
 **Remote code:** No. All code is included in the package.
