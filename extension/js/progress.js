@@ -250,6 +250,15 @@
     head.appendChild(el('span', null, fmt(counted) + ' of ' + fmt(target) + ' credits counted'));
     summary.appendChild(head);
     summary.appendChild(bar(counted, willCount, target));
+    var legend = el('div', 'tc-legend');
+    [['tc-key-done', 'Counted (passed)'], ['tc-key-pending', 'In progress, counts if you pass'], ['tc-key-mark', 'Area minimum']].forEach(function(k){
+      var item = el('span'); item.appendChild(el('i', k[0])); item.appendChild(document.createTextNode(k[1])); legend.appendChild(item);
+    });
+    legend.appendChild(el('span', 'tc-legend-sep', '|'));
+    [['tc-ok', 'Minimum reached'], ['tc-soon', 'Enough if you pass'], ['tc-need', 'Still missing credits']].forEach(function(k){
+      legend.appendChild(el('span', 'tc-legend-text ' + k[0], k[1]));
+    });
+    summary.appendChild(legend);
     var facts = el('div', 'tc-progress-facts');
     [['Counted', fmt(counted) + ' CP'],
      ['In progress', fmt(inProg) + ' CP', willCount < inProg ? fmt(willCount) + ' CP of it can count (area limits)' : 'all of it can count'],
@@ -309,6 +318,8 @@
       line.appendChild(bar(done, counts, min || (max === Infinity ? 0 : max)));
       line.appendChild(el('span', 'tc-area-count', fmt(done) + (min ? ' / ' + fmt(min) : '') + ' CP'));
       line.appendChild(el('span', 'tc-area-msg', msg));
+      line.title = fmt(done) + ' CP counted' + (wip ? ', ' + fmt(counts) + ' CP in progress that can count' : '') +
+        (min ? ', minimum ' + fmt(min) + ' CP' : '') + (max !== Infinity ? ', maximum ' + fmt(max) + ' CP' : '');
       td.appendChild(line); tr.appendChild(td);
       var after = a.ruleRow || a.sumRow;
       after.parentNode.insertBefore(tr, after.nextSibling);

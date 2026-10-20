@@ -115,6 +115,8 @@ Each exam shows its module code, the full name and date. **Unregister** is shown
 
 At the top of your performance record:
 
+**Colours:** in the bars, 🟩 green = credits counted, striped 🟦 blue = in progress (counts if you pass), and the thin white line = the area's minimum. In the text, green means the minimum is reached, blue means it's enough if you pass, and amber means credits are still missing even then. A legend is shown under the main bar, and hovering an area's line shows its numbers.
+
 - **Overall:** credits counted vs. required (e.g. *53 of 120*), what's in progress and how much of it can still count, and what would be left if you pass everything.
 - **Still short:** areas that won't reach their minimum even if you pass all current modules, e.g. *AI Domains and Applications (3,0)*. Plan your next semester with these.
 - **In progress, where the credits will count:** every module you're registered for this semester, plus open or incomplete ones, with its credits and the area it counts towards.

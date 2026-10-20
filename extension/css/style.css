@@ -897,3 +897,14 @@ html body .tuplan-status[data-tone='error']{ color: var(--danger) !important; }
 #pageContent a.tc-code{ text-decoration: none !important; }
 #pageContent a.tc-code:hover{ background: #24384f !important; }
 .tc-pending-table .tuplan-badge{ margin-left: 2px !important; margin-right: 6px !important; }
+.tc-legend{ display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 8px; color: var(--muted) !important; font-size: 11px !important; }
+.tc-legend span{ display: inline-flex; align-items: center; gap: 6px; color: var(--muted) !important; font-size: 11px !important; }
+.tc-legend i{ display: inline-block; width: 14px; height: 8px; border-radius: 999px; }
+.tc-legend i.tc-key-done{ background: var(--success) !important; }
+.tc-legend i.tc-key-pending{ background: repeating-linear-gradient(45deg, var(--accent) 0 4px, #4a86c2 4px 8px) !important; }
+.tc-legend i.tc-key-mark{ width: 2px; height: 12px; border-radius: 0; background: var(--text) !important; opacity: .7; }
+.tc-legend .tc-legend-sep{ opacity: .4; }
+.tc-legend .tc-legend-text{ font-weight: 600 !important; }
+.tc-legend .tc-legend-text.tc-ok{ color: var(--success) !important; }
+.tc-legend .tc-legend-text.tc-soon{ color: var(--accent-hi) !important; }
+.tc-legend .tc-legend-text.tc-need{ color: var(--warning) !important; }
