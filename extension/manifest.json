@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "TUCaN Companion – Dark Mode, Schedule & Sign-in Codes",
   "short_name": "TUCaN Companion",
-  "version": "1.3.0",
-  "description": "Unofficial helper for TU Darmstadt's TUCaN: dark theme, clearer schedule, exams and grades, English translation and automatic sign-in codes.",
+  "version": "1.3.1",
+  "description": "Unofficial helper for TU Darmstadt's TUCaN: dark theme, clearer schedule and grades, degree progress and automatic sign-in codes.",
   "homepage_url": "https://github.com/rahul069/tucan-companion",
   "icons": {
     "16": "icons/icon_16.png",
