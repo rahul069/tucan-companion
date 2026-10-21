@@ -273,6 +273,24 @@ Other things to ask:
 - *"Do I have new TUCaN messages?"*
 - *"What's the registration deadline for Deep Learning?"*
 
+### TU email (optional, read-only)
+
+A second connector in the same folder reads your **TU student mailbox** (`imap.stud.tu-darmstadt.de`) with the TU-ID and password saved by `tucan-mcp-setup`:
+
+```bash
+claude mcp add tu-mail -s user -- uv run --directory /path/to/tucan-companion/mcp tu-mail-mcp
+```
+
+Ask things like *"Any new emails from my lecturers this week?"* or *"Find the email about the Optimization Algorithms exam."*
+
+| Tool | Returns |
+|---|---|
+| `mail_search(query, sender, since, unread_only, folder, limit)` | Matching messages, newest first (`since`: `7d`, `2w`, `2026-10-01`) |
+| `mail_read(uid, folder)` | Headers, text and attachment names of one message |
+| `mail_list_folders` | Inbox, Sent, Archives, … |
+
+**Read-only:** folders are opened in read-only mode (IMAP `EXAMINE`) and messages are fetched with `BODY.PEEK`, so nothing is sent, moved, deleted or even marked as read.
+
 ### Tools
 
 | Tool | Returns |

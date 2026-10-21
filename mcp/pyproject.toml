@@ -15,6 +15,7 @@ dependencies = [
 [project.scripts]
 tucan-mcp = "tucan_mcp.server:main"
 tucan-mcp-setup = "tucan_mcp.setup_cli:main"
+tu-mail-mcp = "tucan_mcp.mail:main"
 
 [build-system]
 requires = ["hatchling"]
