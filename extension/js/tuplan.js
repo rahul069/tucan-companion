@@ -6,9 +6,9 @@
 
 (function(){
   var TUPLAN = 'https://www.tuplan.courses';
-  // API key for reports, issued by TUPlan for TUCaN Companion. Without it the share button
-  // explains that sharing isn't available yet.
-  var REPORT_KEY = '';
+  // API key for reports: the key from TUPlan's own extension, which TUPlan allowed us to use.
+  // Without a key the share button explains that sharing isn't available.
+  var REPORT_KEY = 'ghu9E9cjFBQMP-SLBABdpGIRgfoMaLAfdzemKqASypY';
   var BUCKETS = ['1.0', '1.3', '1.7', '2.0', '2.3', '2.7', '3.0', '3.3', '3.7', '4.0', '5.0'];
   var CODE = /^(\d{2}-[a-z0-9]{2}-[a-z0-9]{3,6})(-[\p{L}\p{N}]{1,8})?$/iu;
   var text = function(el){ return (el && el.textContent || '').replace(/\s+/g, ' ').trim(); };
@@ -195,7 +195,7 @@
       var r = readReport();
       if(r.error){ status.textContent = r.error; status.className = 'tc-tuplan-status tc-bad'; return; }
       if(!REPORT_KEY){
-        status.textContent = 'Sharing isn\'t switched on in this version yet (waiting for TUPlan\'s API key).';
+        status.textContent = 'Sharing with TUPlan isn\'t available in this build.';
         status.className = 'tc-tuplan-status tc-bad';
         return;
       }
