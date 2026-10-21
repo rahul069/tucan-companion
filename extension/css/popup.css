@@ -48,3 +48,7 @@ button.primary{
 button.primary:hover{ background: var(--accent-hi); }
 button.link{ background: none; border: 0; padding: 8px 0 0; cursor: pointer; font: 12px "DM Sans", system-ui, sans-serif; }
 button.danger{ color: var(--danger); }
+
+.extras{ margin-top: 12px; padding-top: 4px; border-top: 1px solid var(--border); }
+.extras .toggle{ border-top: 0; }
+.extras a{ color: var(--accent-hi); }

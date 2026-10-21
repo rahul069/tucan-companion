@@ -63,3 +63,10 @@ $id('remove').addEventListener('click', function(){
   var btn = this;
   setTimeout(function(){ delete btn.dataset.armed; btn.textContent = 'Remove key'; }, 3000);
 });
+
+// TUPlan integration (opt-in)
+chrome.storage.local.get('tuplanEnabled', function(s){ $id('tuplan').checked = !!s.tuplanEnabled; });
+$id('tuplan').addEventListener('change', function(){
+  chrome.storage.local.set({tuplanEnabled: this.checked});
+  if(!this.checked) chrome.storage.local.remove('tuplanDigest');
+});

@@ -21,6 +21,7 @@ The repo also contains an optional **AI assistant connector (MCP server)**. With
   - [Month view](#month-view)
   - [Exams](#exams)
   - [Degree progress](#degree-progress)
+  - [TUPlan grade averages (optional)](#tuplan-grade-averages-optional)
   - [Grades and performance record](#grades-and-performance-record)
   - [Grade statistics](#grade-statistics)
   - [Registration](#registration)
@@ -42,6 +43,7 @@ The repo also contains an optional **AI assistant connector (MCP server)**. With
 | 🗓️ **Month calendar** | Real calendar tiles, today highlighted, entries with time and full course name. |
 | 📝 **Exams** | Each exam on its own row, with the module code as a tag and the sitting (1st/2nd/special) written out. Registered exams show a ✓ badge, past dates are dimmed. |
 | 🧮 **Degree progress** | On the performance record: credits counted vs. required, what's still missing per area, and where this semester's modules will count. |
+| 🟣 **TUPlan averages** *(optional)* | Students' reported grade averages next to every module, and a button to share grade statistics with TUPlan. |
 | 🎓 **Results** | Passed, incomplete and failed modules get a green, amber or red edge. Status words move into the status column. |
 | 📊 **Grade statistics** | The grade distribution popup gets participants, average, pass rate and a bar chart. |
 | 🧭 **Registration** | A short breadcrumb, area cards, course cards with codes, deadline countdowns ("5 days left") and big Register buttons. |
@@ -123,7 +125,7 @@ At the top of your performance record:
   - *Retake: …* (last attempt failed) and *Register again: …* (sick note or absent)
   - *Waiting for results: …* (grade still *not set yet*)
   - *Master's Thesis: 30 CP*
-- **Area cards:** one card per area, in the record's order. Each shows a bar, *counted / minimum · max*, a one-line status, and its modules with credits and a tag: *this semester*, *retake · failed 26.08.2026*, *sick note …* or *result pending · SoSe 2026*. With TUPlan installed, each module also shows its ⌀ grade average.
+- **Area cards:** one card per area, in the record's order. Each shows a bar, *counted / minimum · max*, a one-line status, and its modules with credits and a tag: *this semester*, *retake · failed 26.08.2026*, *sick note …* or *result pending · SoSe 2026*. With the optional [TUPlan feature](#tuplan-grade-averages-optional), each module also shows its ⌀ grade average.
 - **Under every area in the record:** the same bar and status line, e.g. *7,0 more CP needed · 6,0 CP in progress, 1,0 still missing*.
 
 **Colours:** in the bars, 🟩 green = counted, striped 🟦 blue = in progress (counts if you pass), and the thin white line = the area's minimum. Cards and text are green when the minimum is reached, blue when it's enough if you pass, and amber when credits are still missing.
@@ -131,6 +133,15 @@ At the top of your performance record:
 How it works: the credit rules come from the record itself. Credits of open modules come from *My Modules*, this semester's modules from *My Current Registrations*, pending results from *Module Results* and attempts from *Examination Results*. For new modules that aren't on your record yet, the extension checks where TUCaN offers them in *Registration*. Your browser reads these TUCaN pages in the background with your session; no other site is contacted. Results are cached in your browser for 6–12 hours (the area list for a week).
 
 > TUCaN decides the final area when you register for the exam. "Counts towards" for new modules is a preview based on where the module is offered.
+
+### TUPlan grade averages (optional)
+
+[TUPlan](https://www.tuplan.courses) collects grade distributions that students report. With TUPlan's permission, TUCaN Companion can show them. This is **off by default**; turn it on in the popup with **"Grade averages from TUPlan"**.
+
+- **⌀ badges** next to module numbers: degree progress, performance record, module results, exams and so on. Hover one for the average, the number of results and the latest semester's grade distribution.
+- **"Share with TUPlan"** on grade statistics pages (the Ø link in *Module Results* or *Examination Results*) sends that anonymous table to TUPlan: module, semester, number of students per grade and the average. It never sends your name, matriculation number or your own grade, and only happens when you click the button.
+- When it's on, the extension loads TUPlan's public grade list once a day from `tuplan.courses`.
+- If you also have TUPlan's own extension installed, TUCaN Companion steps aside so you don't see everything twice.
 
 ### Grades and performance record
 
@@ -196,7 +207,8 @@ TU's login asks for a 6-digit code from an authenticator app. TUCaN Companion ca
 
 ## Privacy and security
 
-- **No data leaves your computer.** No analytics, no servers, no tracking. The only requests the extension makes are to TUCaN itself, with your session, to read your module lists for the degree-progress view.
+- **No data leaves your computer** unless you turn on the optional TUPlan feature. No analytics, no servers of ours, no tracking. By default the only requests go to TUCaN itself, with your session, to read your module lists for the degree-progress view.
+- **TUPlan (opt-in):** when on, the extension downloads TUPlan's public grade list once a day. When you click **Share distribution**, it sends that page's anonymous grade table to tuplan.courses.
 - **It only runs on** `www.tucan.tu-darmstadt.de` (theme), `dsf.tucan.tu-darmstadt.de` (logout page styling) and `login.tu-darmstadt.de` (code filling).
 - **Permissions:** `storage`, to remember your view choice and your sign-in key (if you add one), and `clipboardWrite`, so clicking the code copies it.
 - **Open source:** everything is in this repo. Read it, or build it yourself.
