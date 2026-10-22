@@ -4,9 +4,11 @@
 
 TUCaN Companion is a free Chrome extension that redesigns [TUCaN](https://www.tucan.tu-darmstadt.de) in your browser. You get a dark theme, a readable weekly agenda, a calendar-style month view, clearer exam and grade pages and English translations for the German leftovers. It also fills in the 6-digit one-time code on the TU login page.
 
+[**Add to Chrome**](https://chromewebstore.google.com/detail/epcldbdboelnhjfobcgaopbadcofkega) · [Download from GitHub](../../releases/latest)
+
 The repo also contains an optional **AI assistant connector (MCP server)**. With it, assistants such as Claude can answer questions like *"When is my next exam?"* using your TUCaN data, read-only.
 
-> Unofficial student project. Not affiliated with or endorsed by TU Darmstadt. "TUCaN" and "TU Darmstadt" are names of TU Darmstadt. The extension only changes how pages look in **your** browser and sends no data anywhere.
+> Unofficial student project. Not affiliated with or endorsed by TU Darmstadt. "TUCaN" and "TU Darmstadt" are names of TU Darmstadt. The extension only changes how pages look in **your** browser and sends no data anywhere, unless you turn on the optional [TUPlan grade averages](#tuplan-grade-averages-optional).
 
 ![Start page](docs/images/home.png)
 
@@ -55,13 +57,13 @@ The repo also contains an optional **AI assistant connector (MCP server)**. With
 
 ## Install the extension
 
-### Option A: Chrome Web Store *(recommended, once published)*
+### Option A: Chrome Web Store *(recommended)*
 
-1. Open the TUCaN Companion page in the Chrome Web Store.
+1. Open [**TUCaN Companion in the Chrome Web Store**](https://chromewebstore.google.com/detail/epcldbdboelnhjfobcgaopbadcofkega).
 2. Click **Add to Chrome → Add extension**.
 3. Open TUCaN. That's it, and updates install automatically.
 
-*The store listing is in review. Until it's live, use option B.*
+*The store can be a few days behind the newest [GitHub release](../../releases/latest).*
 
 ### Option B: Install from GitHub (2 minutes)
 
